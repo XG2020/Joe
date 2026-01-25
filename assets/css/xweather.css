@@ -1,0 +1,457 @@
+/* 天气挂件样式 */
+.weather-widget {
+    width: 250px;
+    height: 320px;
+    margin: 0 auto;
+    font-family: 'Microsoft YaHei', Arial, sans-serif;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+.weather-widget::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: 1;
+}
+
+.weather-container {
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+/* 加载和错误状态 - 提高层级避免被毛玻璃遮挡 */
+.loading, .error {
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: white;
+    position: relative;
+    z-index: 10; 
+}
+
+.error {
+    background: rgba(255, 0, 0, 0.3);
+    border-radius: 8px;
+    margin: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* 预警信息 */
+.alarm-info {
+    margin: 8px 8px 5px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #ffcc00;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 20px; 
+    box-sizing: border-box;
+    visibility: visible;
+    position: relative;
+    z-index: 10; 
+}
+
+/* 预警隐藏时仍然占位 */
+.alarm-info.hidden {
+    display: block !important; 
+    visibility: hidden; 
+    background: transparent;
+    position: relative;
+    z-index: 10;
+}
+
+.alarm-marquee {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 15s linear infinite;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* 当前天气区域 */
+.current-weather {
+    height: 150px;
+    padding: 10px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.15);
+    margin: 0 10px 5px;
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    z-index: 2; 
+}
+
+/* 城市选择器样式 */
+.city-dropdown-container {
+    position: relative;
+    display: inline-block;
+    z-index: 9998;
+}
+
+.city-display {
+    font-weight: bold;
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.city-display:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+.city-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.city-dropdown.hidden {
+    display: none;
+}
+
+.city-selector {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.province-select, .city-select {
+    padding: 6px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.province-select:hover, .city-select:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.province-select:disabled, .city-select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.province-select option, .city-select option {
+    background: #333;
+    color: white;
+    padding: 4px;
+}
+
+.location {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+#city {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.update-time {
+    text-align: right;
+    white-space: pre-line;
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+.current-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.current-temp {
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.current-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.weather-icon img {
+    width: 40px;
+    height: 40px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.weather-desc {
+    text-align: right;
+}
+
+#current-weather {
+    font-size: 15px;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.weather-details {
+    font-size: 11px;
+    opacity: 0.9;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.current-humidity-main {
+    font-size: 14px;
+    opacity: 0.9;
+    text-align: center;
+    margin-top: 12px;
+    font-weight: 500;
+}
+
+/* 预报内容区域 */
+.forecast-content {
+    height: 105px;
+    padding: 0 10px 10px;
+    margin-top: 5px;
+    position: relative;
+    z-index: 1; 
+}
+
+.hourly-forecast {
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 5px;
+    backdrop-filter: blur(5px);
+    margin: 5px 0;
+    position: relative;
+    z-index: 1;
+}
+
+.hourly-list {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    align-items: center;
+    gap: 8px;
+}
+
+.hourly-item {
+    flex: 1;
+    text-align: center;
+    padding: 6px 4px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    backdrop-filter: blur(3px);
+    min-width: 0;
+}
+
+.hourly-item .time {
+    font-size: 10px;
+    margin-bottom: 6px;
+    opacity: 0.9;
+}
+
+.hourly-item .icon img {
+    width: 24px;
+    height: 24px;
+    margin: 4px 0;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.hourly-item .temp {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* 响应式设计 */
+@media (max-width: 280px) {
+    .weather-widget {
+        width: 95%;
+        max-width: 250px;
+    }
+    
+    .current-weather {
+        padding: 12px;
+    }
+    
+    .current-temp {
+        font-size: 32px;
+    }
+    
+    .weather-icon img {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .hourly-item {
+        padding: 6px 2px;
+    }
+    
+    .hourly-item .time {
+        font-size: 9px;
+    }
+    
+    .hourly-item .icon img {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .hourly-item .temp {
+        font-size: 11px;
+    }
+}
+
+/* 隐藏元素 */
+.hidden {
+    display: none !important;
+}
+
+/* 显示元素 */
+.visible {
+    display: block !important;
+}
+
+/* 预警信息显示时的样式 */
+.alarm-visible .current-weather {
+    margin-top: 0; 
+}
+
+/* 分页指示器 */
+#pagination-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px;
+    gap: 10px;
+    z-index: 10;
+    position: relative;
+}
+
+/* 分页圆点 */
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 激活的分页圆点 */
+.dot.active {
+    background-color: rgba(255, 255, 255, 0.8);
+    transform: scale(1.2);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* 圆点悬停效果 */
+.dot:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+    transform: scale(1.1);
+}
+
+/* 小时预报隐藏状态 */
+.hourly-forecast.hidden {
+    display: none !important;
+}
+
+.hourly-forecast.visible {
+    display: block !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hourly-item {
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.hourly-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+    .weather-widget {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    }
+    
+    .current-weather,
+    .hourly-forecast {
+        background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .hourly-item {
+        background: rgba(0, 0, 0, 0.15);
+    }
+    
+    .hourly-item:hover {
+        background: rgba(0, 0, 0, 0.25);
+    }
+}
+
+/* 动画效果 */
+.weather-container {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hourly-item {
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.hourly-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.25);
+}
