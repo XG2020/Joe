@@ -545,15 +545,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     /* 初始化网站切换标题 */
     {
-        if (window.Joe.DOCUMENT_TITLE === '' || window.Joe.IS_MOBILE === 'on') return;
-        const DOCUMENT_TITLE = document.title;
-        $(document).on('visibilitychange', function() {
-            if (document.visibilityState === 'hidden') {
-                document.title = window.Joe.DOCUMENT_TITLE;
-            } else {
-                document.title = DOCUMENT_TITLE;
-            }
-        });
+        if (window.Joe.DOCUMENT_TITLE !== '' && window.Joe.IS_MOBILE !== 'on') {
+            const DOCUMENT_TITLE = document.title;
+            $(document).on('visibilitychange', function() {
+                if (document.visibilityState === 'hidden') {
+                    document.title = window.Joe.DOCUMENT_TITLE;
+                } else {
+                    document.title = DOCUMENT_TITLE;
+                }
+            });
+        }
     }
     /* 初始化伸缩侧边栏 */
     {
