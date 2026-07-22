@@ -172,6 +172,22 @@ class Editor
         <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
         <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-one-light-dark@1.0.4/prism-onedark.min.css">
         <link rel="stylesheet" href="<?php Helper::options()->themeUrl('typecho/write/css/joe.write.min.css') ?>">
+        <link rel="stylesheet" href="<?php Helper::options()->themeUrl('assets/css/joe.compat.css') ?>">
+        <style>
+            .cm-preview-content {
+                --theme: #409eff;
+                --background: #fff;
+                --routine: #606266;
+                --minor: #909399;
+                --main: #303133;
+                --classA: #f5f7fa;
+                --classB: #ebeef5;
+                --classC: #ebeef5;
+                --classD: #f5f7fa;
+                --box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+                --radius-pc: 8px;
+            }
+        </style>
         <script>
             window.JoeConfig = {
                 uploadAPI: '<?php Helper::security()->index('/action/upload'); ?>',
