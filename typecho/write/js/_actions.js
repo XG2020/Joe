@@ -870,4 +870,55 @@ export default class JoeAction {
 			}
 		});
 	}
+	handleCompat(cm, tool) {
+		/* Joe1.0 向下兼容短代码，插入 1.0 原生 [...] 语法，由 core/compat.php 负责前台渲染 */
+		const lists = [
+			{ label: '回复可见', text: '\n[hide]需要隐藏的内容[/hide]\n' },
+			{ label: '视频（dplayer）', text: '\n[dplayer src="视频地址"/]\n' },
+			{ label: '视频（dplayer弹幕）', text: '\n[dplayer url="视频地址" pic="图片地址" addition="https://dplayer.alone88.cn/v3/bilibili?aid=视频id&cid=弹幕id"/]\n' },
+			{ label: '卡片导航', text: '\n[card-nav]\n [card-nav-item src="跳转地址" title="跳转名称" img="网站图标" /]\n [card-nav-item src="跳转地址" title="跳转名称" img="网站图标" /]\n[/card-nav]\n' },
+			{ label: '打字机效果', text: ' [typing]打字机效果[/typing] ' },
+			{ label: '点击复制', text: ' [copy]点击复制[/copy] ' },
+			{ label: '时间线', text: '\n[timeline]\n [timeline-item]时间线[/timeline-item]\n [timeline-item]时间线[/timeline-item]\n[/timeline]\n' },
+			{ label: '伸缩展开', text: '\n[collapse]\n [collapse-item label="标题"]伸缩展开的内容[/collapse-item]\n [collapse-item label="标题"]伸缩展开的内容[/collapse-item]\n[/collapse]\n' },
+			{ label: '默认卡片', text: '\n[card-default width="卡片宽度" label="卡片标题"]卡片内容[/card-default]\n' },
+			{ label: 'Tab栏切换', text: '\n[tabs]\n [tab-pane label="Tab标题"]Tab内容[/tab-pane]\n [tab-pane label="Tab标题"]Tab内容[/tab-pane]\n[/tabs]\n' },
+			{ label: '带线标题', text: '\n[line]带线的标题[/line]\n' },
+			{ label: '提示（alt）', text: '\n[alt type="success"]成功提示的文案[/alt]\n[alt type="info"]消息提示的文案[/alt]\n[alt type="warning"]警告提示的文案[/alt]\n[alt type="error"]错误提示的文案[/alt]\n' },
+			{ label: '按钮（btn）', text: '\n[btn href="跳转链接" type="default"]默认按钮[/btn]\n[btn href="跳转链接" type="primary"]主要按钮[/btn]\n[btn href="跳转链接" type="success"]成功按钮[/btn]\n[btn href="跳转链接" type="info"]信息按钮[/btn]\n[btn href="跳转链接" type="warning"]警告按钮[/btn]\n[btn href="跳转链接" type="danger"]危险按钮[/btn]\n' },
+			{ label: '标签（tag）', text: '\n[tag type="default"]标签一[/tag]\n[tag type="success"]标签二[/tag]\n[tag type="info"]标签三[/tag]\n[tag type="warning"]标签四[/tag]\n[tag type="danger"]标签五[/tag]\n' },
+			{ label: '相册', text: '\n[photo]\n markdown的图片\n markdown的图片\n[/photo]\n' },
+			{ label: '网易云音乐', text: '\n[music id="网抑云音乐ID"/]\n' },
+			{ label: '网易云歌单', text: '\n[music-list id="网抑云歌单ID"/]\n' },
+			{ label: '视频列表', text: '\n[video]\n [video-item src="视频地址" poster="海报图（填写数字则表示截取视频帧）" /]\n [video-item src="视频地址" poster="海报图（填写数字则表示截取视频帧）" /]\n[/video]\n' }
+		];
+		const item = $(`
+			<div class="cm-tools-item" title="${tool.title}">
+				${tool.innerHTML}
+				<div class="cm-tools__dropdown cm-tools__dropdown--compat">
+					<div class="cm-tools__dropdown-scroll"></div>
+				</div>
+			</div>
+		`);
+		const dropdown = item.find('.cm-tools__dropdown-scroll');
+		lists.forEach(list => {
+			const el = $(`<div class="cm-tools__dropdown-item">${list.label}</div>`);
+			el.data('text', list.text);
+			dropdown.append(el);
+		});
+		item.on('click', function (e) {
+			e.stopPropagation();
+			$(this).toggleClass('active');
+		});
+		const _this = this;
+		item.on('click', '.cm-tools__dropdown-item', function (e) {
+			e.stopPropagation();
+			const text = $(this).data('text');
+			_this._replaceSelection(cm, text);
+			item.removeClass('active');
+			cm.focus();
+		});
+		$(document).on('click', () => item.removeClass('active'));
+		$('.cm-tools').append(item);
+	}
 }

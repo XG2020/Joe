@@ -5,8 +5,7 @@ export default {
 	output: {
 		file: './dist/index.bundle.js',
 		format: 'iife',
-		inlineDynamicImports: true,
-		minify: true
+		inlineDynamicImports: true
 	},
 	plugins: [nodeResolve(), terser({ compress: { drop_console: true } })]
 };

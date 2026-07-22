@@ -208,6 +208,8 @@ class Joe extends JoeAction {
 		tools.forEach(item => {
 			if (item.type === 'title') {
 				super.handleTitle(this.cm, item);
+			} else if (item.type === 'compat') {
+				super.handleCompat(this.cm, item);
 			} else {
 				const el = $(`<div class="cm-tools-item" title="${item.title}">${item.innerHTML}</div>`);
 				el.on('click', e => {

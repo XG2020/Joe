@@ -116,6 +116,31 @@ body.fullscreen {
 				border-right: 7px solid transparent;
 				border-bottom: 7px solid #353b45;
 			}
+			&--compat {
+				.cm-tools__dropdown-scroll {
+					max-height: min(320px, 55vh);
+					overflow-y: auto;
+					overflow-x: hidden;
+					&::-webkit-scrollbar {
+						width: 6px;
+					}
+					&::-webkit-scrollbar-thumb {
+						background: rgba(255, 255, 255, 0.2);
+						border-radius: 3px;
+					}
+					&::-webkit-scrollbar-thumb:hover {
+						background: rgba(255, 255, 255, 0.35);
+					}
+					&::-webkit-scrollbar-track {
+						background: transparent;
+					}
+				}
+				.cm-tools__dropdown-item {
+					line-height: 28px;
+					font-size: 13px;
+					white-space: nowrap;
+				}
+			}
 		}
 	}
 	.cm-mainer {

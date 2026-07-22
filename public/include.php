@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.normalize.min.css'); ?>">
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.global.min.css'); ?>">
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.responsive.min.css'); ?>">
+<link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.compat.css'); ?>">
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/bootstrap-grid.min.css'); ?>">
 <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/typecho-joe-next@6.0.0/plugin/qmsg/qmsg.css">
 <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
@@ -58,6 +59,7 @@
 <?php endif; ?>
 <script src="<?php $this->options->themeUrl('assets/js/joe.global.min.js?v=7.2.9'); ?>"></script>
 <script src="<?php $this->options->themeUrl('assets/js/joe.short.min.js?v=7.2.9'); ?>"></script>
+<script src="<?php $this->options->themeUrl('assets/js/joe.compat.js'); ?>"></script>
 <script src="<?php $this->options->themeUrl('assets/js/joe.banner.min.js'); ?>"></script>
 <?php $this->options->JCustomHeadEnd() ?>
 

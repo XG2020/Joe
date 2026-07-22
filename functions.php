@@ -555,6 +555,23 @@ function themeConfig($form)
     $JAside_Author_Nav->setAttribute('class', 'joe_content joe_aside');
     $form->addInput($JAside_Author_Nav->multiMode());
     /* --------------------------------------- */
+    $JRanking = new Typecho_Widget_Helper_Form_Element_Select(
+        'JRanking',
+        array(
+            'off' => '关闭（默认）',
+            'bilibili热门视频$bilibili' => 'bilibili热门视频',
+            'bilibili番剧排行榜$bilibili_fan' => 'bilibili番剧排行榜',
+            'bilibili视频排行榜$bilibili$video' => 'bilibili视频排行榜',
+        ),
+        'off',
+        '选择一款您想展示的排行榜',
+        '介绍：开启后侧边栏将显示您所选择的排行榜 <br>
+         注意：开启可能会导致网址变慢！！！
+        '
+    );
+    $JRanking->setAttribute('class', 'joe_content joe_aside');
+    $form->addInput($JRanking->multiMode());
+    /* --------------------------------------- */
     $JAside_Timelife_Status = new Typecho_Widget_Helper_Form_Element_Select(
         'JAside_Timelife_Status',
         array(

@@ -87,6 +87,26 @@ function themeInit($self)
     }
 }
 
+/* 请求 */
+function GetRequest($curl, $method = 'post', $data = null, $https = true)
+{
+    $ch = curl_init(); //初始化
+    curl_setopt($ch, CURLOPT_URL, $curl); //设置访问的URL
+    curl_setopt($ch, CURLOPT_HEADER, false); //设置不需要头信息
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //只获取页面内容，但不输出
+    if ($https) {
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //不做服务器认证
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); //不做客户端认证
+    }
+    if ($method == 'post') {
+        curl_setopt($ch, CURLOPT_POST, true); //设置请求是POST方式
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data); //设置POST请求的数据
+    }
+    $str = curl_exec($ch); //执行访问，返回结果
+    curl_close($ch); //关闭curl，释放资源
+    return $str;
+}
+
 /* 增加自定义字段 */
 function themeFields($layout)
 {

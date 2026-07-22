@@ -1,5 +1,8 @@
 <?php
 
+/* Joe1.0 短代码向下兼容解析器 */
+require_once('compat.php');
+
 function _parseContent($post, $login)
 {
     $content = $post->content;
@@ -90,6 +93,9 @@ function _parseContent($post, $login)
     if (strpos($content, '{copy') !== false) {
         $content = preg_replace('/{copy([^}]*)\/}/SU', '<joe-copy $1></joe-copy>', $content);
     }
+
+    /* 兼容 Joe1.0 的 [xxx] 短代码，翻译为 1.0 的 j-* HTML */
+    $content = _parseCompat($content, $post, $login);
 
     echo $content;
 }

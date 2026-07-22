@@ -1,0 +1,176 @@
+/*!
+ * Joe 1.0 短代码兼容样式
+ * 忠实还原 Joe1.0/assets/css/joe.min.css 中的 j-* 组件样式，
+ * 供 core/compat.php 生成的 1.0 HTML 使用。
+ * 所依赖的 CSS 变量（--theme/--background/--routine/--minor/--main/
+ * --classA/--classB/--classC/--classD/--box-shadow）均由 2.0 的
+ * joe.mode.min.css 提供；--radius-pc 在此补充回退值。
+ */
+
+@keyframes showTabs {
+	0% { opacity: 0 }
+	100% { opacity: 1 }
+}
+
+/* 标签 j-tag */
+.j-tag {
+	display: inline-block;
+	height: 32px;
+	padding: 0 10px;
+	line-height: 30px;
+	font-size: 12px;
+	border-radius: 4px;
+	box-sizing: border-box;
+	white-space: nowrap
+}
+.j-tag.default { background-color: #ecf5ff; border: 1px solid #d9ecff; color: #409eff }
+.j-tag.success { background-color: #f0f9eb; border: 1px solid #e1f3d8; color: #67c23a }
+.j-tag.info { background-color: #f4f4f5; border: 1px solid #e9e9eb; color: #909399 }
+.j-tag.warning { background-color: #fdf6ec; border: 1px solid #faecd8; color: #e6a23c }
+.j-tag.danger { background-color: #fef0f0; border: 1px solid #fde2e2; color: #f56c6c }
+
+/* 按钮 j-btn */
+.j-btn {
+	display: inline-block;
+	white-space: nowrap;
+	text-align: center;
+	transition: 0.1s;
+	font-weight: 500;
+	padding: 10px 20px;
+	border-radius: 4px;
+	font-size: 14px;
+	line-height: 1;
+	text-decoration: none
+}
+.j-btn.default { background: #fff; border: 1px solid #dcdfe6; color: #606266 !important }
+.j-btn.default:hover { color: #409eff !important; border-color: #c6e2ff; background-color: #ecf5ff; text-decoration: unset !important }
+.j-btn.primary { color: #fff !important; background-color: #409eff; border-color: #409eff }
+.j-btn.primary:hover { background: #66b1ff; border-color: #66b1ff; text-decoration: unset !important }
+.j-btn.success { color: #fff !important; background-color: #67c23a; border-color: #67c23a }
+.j-btn.success:hover { background: #85ce61; border-color: #85ce61; text-decoration: unset !important }
+.j-btn.info { color: #fff !important; background-color: #909399; border-color: #909399 }
+.j-btn.info:hover { background: #a6a9ad; border-color: #a6a9ad; text-decoration: unset !important }
+.j-btn.warning { color: #fff !important; background-color: #e6a23c; border-color: #e6a23c }
+.j-btn.warning:hover { background: #ebb563; border-color: #ebb563; text-decoration: unset !important }
+.j-btn.danger { color: #fff !important; background-color: #f56c6c; border-color: #f56c6c }
+.j-btn.danger:hover { background: #f78989; border-color: #f78989; text-decoration: unset !important }
+
+/* 提示框 j-alt */
+.j-alt {
+	width: 100%;
+	padding: 8px 15px 8px 35px;
+	border-radius: 4px;
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	transition: opacity 0.2s;
+	font-size: 13px;
+	margin: 20px 0
+}
+.j-alt::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 10px;
+	transform: translateY(-50%);
+	width: 20px;
+	height: 18px;
+	vertical-align: top;
+	background-repeat: no-repeat;
+	background-position: center center
+}
+.j-alt.success { background-color: #f0f9eb; color: #67c23a }
+.j-alt.success::before { background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNjA1NzQ4Nzc4NzcyIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjI0MTUiIHdpZHRoPSIxNSIgaGVpZ2h0PSIxNSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTUxMiA4NS4zMzMzMzNjMjM1LjY0OCAwIDQyNi42NjY2NjcgMTkxLjAxODY2NyA0MjYuNjY2NjY3IDQyNi42NjY2NjdzLTE5MS4wMTg2NjcgNDI2LjY2NjY2Ny00MjYuNjY2NjY3IDQyNi42NjY2NjdTODUuMzMzMzMzIDc0Ny42NDggODUuMzMzMzMzIDUxMiAyNzYuMzUyIDg1LjMzMzMzMyA1MTIgODUuMzMzMzMzeiBtLTc0Ljk2NTMzMyA1NTAuNEwzNDYuNDUzMzMzIDU0NS4xNTJhNDIuNjY2NjY3IDQyLjY2NjY2NyAwIDEgMC02MC4zMzA2NjYgNjAuMzMwNjY3bDEyMC43MDQgMTIwLjcwNGE0Mi42NjY2NjcgNDIuNjY2NjY3IDAgMCAwIDYwLjMzMDY2NiAwbDMwMS42NTMzMzQtMzAxLjY5NmE0Mi42NjY2NjcgNDIuNjY2NjY3IDAgMSAwLTYwLjI4OC02MC4zMzA2NjdsLTI3MS41MzA2NjcgMjcxLjQ4OCAwLjA0MjY2NyAwLjA4NTMzM3oiIGZpbGw9IiM1MkM0MUEiIHAtaWQ9IjI0MTYiPjwvcGF0aD48L3N2Zz4=") }
+.j-alt.info { background-color: #f4f4f5; color: #909399 }
+.j-alt.info::before { background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNjA1NzQ5NDI2MDY2IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjQ3ODQiIHdpZHRoPSIxNSIgaGVpZ2h0PSIxNSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTUxMiA1MS4yYy0yNTYgMC00NjAuOCAyMDQuOC00NjAuOCA0NjAuOHMyMDQuOCA0NjAuOCA0NjAuOCA0NjAuOCA0NjAuOC0yMDQuOCA0NjAuOC00NjAuOC0yMDQuOC00NjAuOC00NjAuOC00NjAuOHogbTAgNzc4LjI0Yy00MC45NiAwLTcxLjY4LTMwLjcyLTcxLjY4LTcxLjY4czMwLjcyLTcxLjY4IDcxLjY4LTcxLjY4YzQwLjk2IDAgNzEuNjggMzAuNzIgNzEuNjggNzEuNjhzLTMwLjcyIDcxLjY4LTcxLjY4IDcxLjY4eiBtNTEuMi0yNTZjMCA0MC45Ni0yMC40OCA3MS42OC00Ni4wOCA3MS42OGgtMTAuMjRjLTI1LjYgMC00Ni4wOC0zMC43Mi00Ni4wOC03MS42OGwtMzUuODQtMjkxLjg0YzAtNDAuOTYgMjAuNDgtNzEuNjggNDYuMDgtNzEuNjhoNjYuNTZjMjUuNiAwIDQ2LjA4IDMwLjcyIDQ2LjA4IDcxLjY4bC0yMC40OCAyOTEuODR6IiBwLWlkPSI0Nzg1IiBmaWxsPSIjOGE4YThhIj48L3BhdGg+PC9zdmc+") }
+.j-alt.warning { background-color: #fdf6ec; color: #e6a23c }
+.j-alt.warning::before { background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNjA1NzQ5NTM3NTM2IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjYwNjciIHdpZHRoPSIxNSIgaGVpZ2h0PSIxNSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTUxMiA3OC43NjkyMzFDMjczLjcyMzA3NyA3OC43NjkyMzEgNzguNzY5MjMxIDI3My43MjMwNzcgNzguNzY5MjMxIDUxMnMxOTQuOTUzODQ2IDQzMy4yMzA3NjkgNDMzLjIzMDc2OSA0MzMuMjMwNzY5IDQzMy4yMzA3NjktMTk0Ljk1Mzg0NiA0MzMuMjMwNzY5LTQzMy4yMzA3NjlTNzUwLjI3NjkyMyA3OC43NjkyMzEgNTEyIDc4Ljc2OTIzMXogbTYxLjU5NzUzOCAyMDIuNDc2MzA3bC0xMy44NjMzODQgMzA2LjgwNjE1NGMwIDE4Ljc4NjQ2Mi0xNi42MjAzMDggMzIuMjU2LTM1Ljk5NzUzOSAzMi4yNTZoLTguMjcwNzY5Yy0xOS40MTY2MTUgMC0zMy4yOC0xMy40Njk1MzgtMzYuMDM2OTIzLTMyLjI5NTM4NGwtMTMuODYzMzg1LTMwNi43NjY3N2MwLTE4LjgyNTg0NiAxMy44NjMzODUtMzIuMjk1Mzg1IDMwLjQ4MzY5My0zMi4yOTUzODRoNDQuMzA3NjkyYzE5LjM3NzIzMSAwIDM1Ljk5NzUzOCAxMy40Njk1MzggMzMuMjQwNjE1IDMyLjI5NTM4NHogbS0xOC4xOTU2OTIgNDc3LjUzODQ2MmE1MS41NTQ0NjIgNTEuNTU0NDYyIDAgMCAxLTM2Ljk4MjE1NCAxNi4yNjU4NDZjLTE1Ljg3MiAwLTI2LjQyNzA3Ny01LjQzNTA3Ny0zNi45ODIxNTQtMTYuMjY1ODQ2LTEwLjU5NDQ2Mi0xMC44MzA3NjktMTUuODcyLTIxLjY2MTUzOC0xNS44NzItMzcuODg4IDAtMTYuMjY1ODQ2IDUuMjc3NTM4LTI3LjA5NjYxNSAxNS44NzItMzcuOTI3Mzg1IDEwLjU1NTA3Ny0xMC44MzA3NjkgMjEuMTEwMTU0LTE2LjIyNjQ2MiAzNi45ODIxNTQtMTYuMjI2NDYxIDE1LjgzMjYxNSAwIDI5LjA2NTg0NiA1LjM5NTY5MiAzOS42MjA5MjMgMTYuMjI2NDYxIDEwLjU1NTA3NyAxMC44MzA3NjkgMTUuODMyNjE1IDIxLjY2MTUzOCAxNS44MzI2MTYgMzcuOTI3Mzg1LTIuNTk5Mzg1IDE2LjIyNjQ2Mi03Ljg3NjkyMyAyOS43NzQ3NjktMTguNDcxMzg1IDM3Ljg4OHoiIGZpbGw9IiNGRjhGMDAiIHAtaWQ9IjYwNjgiPjwvcGF0aD48L3N2Zz4=") }
+.j-alt.error { background-color: #fef0f0; color: #f56c6c }
+.j-alt.error::before { background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNjA1NzQ5NjAwMDMxIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9Ijc0ODEiIHdpZHRoPSIxNSIgaGVpZ2h0PSIxNSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTUxMiA2NGE0NDggNDQ4IDAgMSAwIDQ0OCA0NDhBNDQ4IDQ0OCAwIDAgMCA1MTIgNjR6IG0yMjIuMDggNjA5LjkyYTQyLjY2NjY2NyA0Mi42NjY2NjcgMCAxIDEtNjAuMzczMzMzIDYwLjM3MzMzM0w1MTIgNTcxLjUybC0xNjIuNzczMzMzIDE2Mi43NzMzMzNhNDIuNjY2NjY3IDQyLjY2NjY2NyAwIDAgMS02MC4zNzMzMzQtNjAuMzczMzMzTDQ1MC43NzMzMzMgNTEybC0xNjIuNzczMzMzLTE2My42MjY2NjdhNDIuNjY2NjY3IDQyLjY2NjY2NyAwIDEgMSA2MC4zNzMzMzMtNjAuMzczMzMzTDUxMiA0NTAuNzczMzMzbDE2Mi43NzMzMzMtMTYyLjc3MzMzM2E0Mi42NjY2NjcgNDIuNjY2NjY3IDAgMSAxIDYwLjM3MzMzNCA2MC4zNzMzMzNMNTcxLjUyIDUxMnoiIGZpbGw9IiNGRjNEMUQiIHAtaWQ9Ijc0ODIiPjwvcGF0aD48L3N2Zz4=") }
+
+/* 线状标题 j-line */
+.j-line { display: flex; justify-content: center; align-items: center; margin: 20px 0 }
+.j-line span { position: relative; color: var(--minor); line-height: 24px; height: 24px; padding: 0 15px; transition: padding 0.35s }
+.j-line span::before,.j-line span::after { content: ''; position: absolute; top: 50%; width: 20px; height: 1px; border-top: 1px solid #f73859 }
+.j-line span::before { left: -35px }
+.j-line span::after { right: -35px }
+.j-line span:hover { padding: 0 }
+
+/* Tab 栏 j-tabs */
+.j-tabs { width: 100%; overflow: hidden; background: var(--background); box-shadow: 0 2px 6px rgba(0,0,0,0.1); border: 1px solid var(--classB); border-radius: 4px; margin: 20px 0 }
+.j-tabs .nav { user-select: none; width: 100%; height: 42px; overflow-x: auto; overflow-y: hidden; overscroll-behavior: none; -webkit-overflow-scrolling: touch; display: flex; background: #ffffff88 }
+.j-tabs .nav::-webkit-scrollbar { display: none }
+.j-tabs .nav span { padding: 0 20px; line-height: 40px; height: 40px; color: var(--minor); cursor: pointer; transition: color 0.5s; white-space: nowrap; position: relative }
+.j-tabs .nav span::after { content: ''; position: absolute; bottom: -1px; left: 20px; right: 20px; height: 2px; background: var(--theme); transform: scale3d(0, 0, 0); opacity: 0; transition: transform 0.5s, opacity 0.5s }
+.j-tabs .nav span.active { position: relative; color: var(--theme) }
+.j-tabs .nav span.active::after { opacity: 1; transform: scale3d(1, 1, 1) }
+.j-tabs .content div { display: none; padding: 15px; animation: showTabs 0.5s; color: var(--routine) }
+.j-tabs .content div.active { display: block }
+
+/* 默认卡片 j-card-default */
+.j-card-default { box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; border: 1px solid var(--classC); margin: 20px 0 }
+.j-card-default .head { user-select: none; border-bottom: 1px solid var(--classC); padding: 0 15px; line-height: 40px; height: 40px; color: var(--main) }
+.j-card-default .content { padding: 15px; color: var(--routine) }
+
+/* 伸缩展开 j-collapse */
+.j-collapse { margin: 20px 0 }
+.j-collapse .collapse-head { position: relative; display: flex; align-items: center; justify-content: space-between; color: var(--routine); cursor: pointer; background: var(--classD); padding: 10px 20px; height: 40px; border-radius: 4px }
+.j-collapse .collapse-head svg { width: 10px; height: 10px; fill: var(--minor); transform: rotate(180deg) }
+.j-collapse .collapse-body { display: none; padding: 20px; color: var(--routine) }
+
+/* 时间线 j-timeline */
+.j-timeline { margin: 20px 0 }
+.j-timeline .item { position: relative; padding: 20px 30px; color: var(--routine) }
+.j-timeline .item::before { content: ''; position: absolute; top: 50%; transform: translateY(-50%); left: 0; width: 13px; height: 13px; background: var(--classA); border-radius: 50%; z-index: 2 }
+.j-timeline .item::after { content: ''; position: absolute; top: 0; left: 6px; width: 1px; height: 100%; background: var(--classC); border-radius: 50% }
+
+/* 相册 j-photos（兼容 a / img / p 直接子元素） */
+.j-photos { display: flex; flex-wrap: wrap; margin: 20px 0 }
+.j-photos a,.j-photos > p { position: relative; display: flex; flex: 0 0 25%; max-width: 25%; padding-right: 20px; padding-top: 20px; transition: transform 0.35s; flex-shrink: 0; min-width: 0; margin: 0 }
+.j-photos a:nth-child(4n),.j-photos > p:nth-child(4n) { padding-right: 0 }
+.j-photos a:nth-child(-n+4),.j-photos > p:nth-child(-n+4) { padding-top: 0 }
+.j-photos a:hover { transform: translate3d(0, -5px, 0) }
+.j-photos a img,.j-photos > p img { flex: 1 1 auto; width: 100% }
+.j-photos > img { flex: 0 0 25%; max-width: 25%; padding: 20px 20px 0 0; box-sizing: border-box }
+
+/* 链接卡片 j-card-nav */
+.j-card-nav { display: flex; flex-wrap: wrap; margin: 20px 0 }
+.j-card-nav .item { width: 25%; padding: 10px }
+.j-card-nav .nav { display: flex; align-items: center; border-radius: 4px; box-shadow: 0px 0px 20px rgba(0,0,0,0.2); transition: transform 0.35s; padding: 15px 10px }
+.j-card-nav .nav .avatar { min-width: 30px; min-height: 30px; width: 30px; height: 30px; background-size: cover; border-radius: 50%; margin-right: 10px }
+.j-card-nav .nav .content { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #fff }
+.j-card-nav .nav svg { width: 18px; height: 18px; min-width: 18px; min-height: 18px; fill: #fff }
+.j-card-nav .nav:hover { text-decoration: none !important; transform: translate3d(0, -5px, 0) }
+
+/* 视频册 j-short-video */
+.j-short-video { margin: 20px 0; display: flex; flex-wrap: wrap }
+.j-short-video .item { width: 33.33333%; height: 180px; padding: 0 10px; margin-bottom: 20px }
+.j-short-video .item .inner { position: relative; cursor: pointer; width: 100%; height: 100%; background-size: cover; background-position: center center; box-shadow: var(--box-shadow); border-radius: var(--radius-pc, 8px); overflow: hidden }
+.j-short-video .item .inner svg { position: absolute; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0) scale(2); width: 50px; height: 50px; opacity: 0; transition: all 0.25s ease-out; fill: #ebebeb; z-index: 2 }
+.j-short-video .item .inner::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); transition: all 0.3s ease-out; opacity: 0; z-index: 1 }
+.j-short-video .item .inner:hover::after { opacity: 1 }
+.j-short-video .item .inner:hover svg { opacity: 1; transform: translate3d(-50%, -50%, 0) scale(1) }
+
+/* 视频预览弹层 j-video-preview */
+.j-video-preview { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99999; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; overflow-y: auto; opacity: 0; visibility: hidden; transition: opacity 0.35s }
+.j-video-preview.active { opacity: 1; visibility: visible }
+.j-video-preview iframe { width: 80%; max-width: 900px; height: 500px; border: none; transform: scale3d(0, 0, 0); transition: transform 0.35s }
+.j-video-preview.active iframe { transform: scale3d(1, 1, 1) }
+.j-video-preview .close { position: absolute; top: 30px; right: 30px; width: 30px; height: 30px; fill: #fff; cursor: pointer; transition: transform 0.35s }
+.j-video-preview .close:hover { transform: rotate(90deg) }
+
+/* 点击复制 j-copy / 打字机 j-typing */
+.j-copy { cursor: pointer }
+.j-typing { display: inline }
+
+/* 播放器 iframe */
+.iframe-dplayer { width: 100%; height: 450px; border: none; margin: 20px 0 }
+.iframe-music { display: block; margin: 20px auto; max-width: 100% }
+
+/* 手机端相册两列 */
+@media (max-width: 768px) {
+	.j-photos a,.j-photos > p,.j-photos > img { flex: 0 0 50%; max-width: 50% }
+	.j-card-nav .item { width: 50% }
+	.j-short-video .item { width: 50% }
+}

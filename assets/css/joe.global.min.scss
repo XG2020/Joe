@@ -915,6 +915,48 @@
 				min-height: 300px;
 			}
 		}
+		&.ranking {
+			background: var(--background);
+			.list {
+				li {
+					display: flex;
+					align-items: center;
+					line-height: 32px;
+					padding: 0 15px;
+					span {
+						color: var(--minor);
+						font-weight: 700;
+						font-size: 18px;
+						width: 18px;
+						min-width: 18px;
+						max-width: 18px;
+					}
+					a {
+						width: 0;
+						min-width: 0;
+						flex: 1;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						color: var(--routine);
+						margin-left: 8px;
+						&:hover {
+							color: var(--theme);
+							text-decoration: underline;
+						}
+					}
+					&:nth-child(1) span {
+						color: #fe2d46;
+					}
+					&:nth-child(2) span {
+						color: #f60;
+					}
+					&:nth-child(3) span {
+						color: #faa90e;
+					}
+				}
+			}
+		}
 		&.hot {
 			background: var(--background);
 			.empty {
