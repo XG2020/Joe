@@ -83,12 +83,22 @@
             <nav class="joe_header__above-nav">
                 <a class="item <?php echo $this->is('index') ? 'active' : '' ?>" href="<?php $this->options->siteUrl(); ?>" title="首页">首页</a>
                 <?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>
-                <?php if (count($pages->stack) <= $this->options->JNavMaxNum) : ?>
-                    <?php foreach ($pages->stack as $item) : ?>
+                <?php
+                $pageList = [];
+                while ($pages->next()) {
+                    $pageList[] = [
+                        'slug' => $pages->slug,
+                        'title' => $pages->title,
+                        'permalink' => $pages->permalink,
+                    ];
+                }
+                ?>
+                <?php if (count($pageList) <= $this->options->JNavMaxNum) : ?>
+                    <?php foreach ($pageList as $item) : ?>
                         <a class="item <?php echo $this->is('page', $item['slug']) ? 'active' : '' ?>" href="<?php echo $item['permalink'] ?>" title="<?php echo $item['title'] ?>"><?php echo $item['title'] ?></a>
                     <?php endforeach; ?>
                 <?php else : ?>
-                    <?php foreach (array_slice($pages->stack, 0, $this->options->JNavMaxNum) as $item) : ?>
+                    <?php foreach (array_slice($pageList, 0, $this->options->JNavMaxNum) as $item) : ?>
                         <a class="item <?php echo $this->is('page', $item['slug']) ? 'active' : '' ?>" href="<?php echo $item['permalink'] ?>" title="<?php echo $item['title'] ?>"><?php echo $item['title'] ?></a>
                     <?php endforeach; ?>
                     <div class="joe_dropdown" trigger="hover" placement="60px" style="margin-right: 15px;">
@@ -99,7 +109,7 @@
                             </svg>
                         </div>
                         <nav class="joe_dropdown__menu">
-                            <?php foreach (array_slice($pages->stack, $this->options->JNavMaxNum) as $item) : ?>
+                            <?php foreach (array_slice($pageList, $this->options->JNavMaxNum) as $item) : ?>
                                 <a class="<?php echo $this->is('page', $item['slug']) ? 'active' : '' ?>" href="<?php echo $item['permalink'] ?>" title="<?php echo $item['title'] ?>"><?php echo $item['title'] ?></a>
                             <?php endforeach; ?>
                         </nav>
@@ -376,7 +386,7 @@
                     </svg>
                 </a>
                 <ul class="slides panel-body">
-                    <?php foreach ($pages->stack as $item) : ?>
+                    <?php foreach ($pageList as $item) : ?>
                         <li>
                             <a class="link <?php echo $this->is('page', $item['slug']) ? 'current' : '' ?>" href="<?php echo $item['permalink'] ?>" title="<?php echo $item['title'] ?>"><?php echo $item['title'] ?></a>
                         </li>
