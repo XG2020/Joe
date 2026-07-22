@@ -109,11 +109,12 @@
         $historyTodaylist = [];
         if ($result instanceof Traversable) {
             foreach ($result as $item) {
-                $item = Typecho_Widget::widget('Widget_Abstract_Contents')->push($item);
+                $archive = Typecho_Widget::widget('Widget_Abstract_Contents');
+                $archive->push($item);
                 $historyTodaylist[] = array(
-                    "title" => htmlspecialchars($item['title']),
-                    "permalink" => $item['permalink'],
-                    "date" => $item['year'] . ' ' . $item['month'] . '/' . $item['day']
+                    "title" => htmlspecialchars($archive->title),
+                    "permalink" => $archive->permalink,
+                    "date" => $archive->year . ' ' . $archive->month . '/' . $archive->day
                 );
             }
         }

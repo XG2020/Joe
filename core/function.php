@@ -4,7 +4,7 @@ require 'ipdata.class.php';
 /* 获取主题当前版本号 */
 function _getVersion()
 {
-	return "2.0.0";
+	return "2.1.0";
 };
 
 /* 判断是否是手机 */
@@ -261,9 +261,10 @@ function _getAsideAuthorNav()
 		$result = $db->query($sql);
 		if ($result instanceof Traversable) {
 			foreach ($result as $item) {
-				$item = Typecho_Widget::widget('Widget_Abstract_Contents')->push($item);
-				$title = htmlspecialchars($item['title']);
-				$permalink = $item['permalink'];
+				$archive = Typecho_Widget::widget('Widget_Abstract_Contents');
+				$archive->push($item);
+				$title = htmlspecialchars($archive->title);
+				$permalink = $archive->permalink;
 				echo "
 						<li class='item'>
 							<a class='link' href='{$permalink}' title='{$title}'>{$title}</a>

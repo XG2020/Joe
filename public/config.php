@@ -36,6 +36,7 @@
 </script>
 <?php
 $fontUrl = $this->options->JCustomFont;
+$fontFormat = '';
 if (strpos($fontUrl, 'woff2') !== false) $fontFormat = 'woff2';
 elseif (strpos($fontUrl, 'woff') !== false) $fontFormat = 'woff';
 elseif (strpos($fontUrl, 'ttf') !== false) $fontFormat = 'truetype';
