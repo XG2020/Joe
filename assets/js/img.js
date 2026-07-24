@@ -53,34 +53,33 @@
     $(function () {
         var $file = $("#joe_comment_file");
         var $btn = $("#joe_comment_img_btn");
-        var $name = $(".joe_comment__upload .showFileName");
+        var $bar = $(".joe_comment__upload-bar");
+        var $name = $bar.find(".showFileName");
         var textarea = document.getElementById("joe_comment_text");
         if (!$file.length || !$btn.length || !textarea) return;
 
         var cfg = window.JoeCommentImg || {};
 
-        /* 初始隐藏文件名与插入按钮 */
-        $name.hide();
-        $btn.hide();
+        /* 初始隐藏信息条 */
+        $bar.hide();
 
-        /* 选择文件：校验类型并展示文件名 */
+        /* 选择文件：校验类型并展开信息条 */
         $file.on("change", function () {
             var path = $(this).val();
             if (!path) {
-                $name.hide();
-                $btn.hide();
+                $bar.hide();
                 return;
             }
             if (!IMG_REG.test(path)) {
-                $name.show().text("请选择图片文件！");
-                $btn.hide();
+                tip("warning", "请选择图片文件！");
                 this.value = "";
+                $bar.hide();
                 return;
             }
             var arr = path.split("\\");
             var fileName = arr[arr.length - 1];
-            $name.show().text("已选择：" + fileName);
-            $btn.show();
+            $name.text("已选择：" + fileName);
+            $bar.show();
         });
 
         /* 点击插入：上传并写入 Markdown 图片语法 */
@@ -124,8 +123,7 @@
                     tip("success", "图片已插入评论框");
                     /* 重置选择状态 */
                     $file.val("");
-                    $name.hide();
-                    $self.hide();
+                    $bar.hide();
                 },
                 error: function (xhr) {
                     if (xhr && xhr.status === 403) {

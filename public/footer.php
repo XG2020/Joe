@@ -55,6 +55,54 @@
 	<!--</div>	-->
 	<div class="read_book_button  not_read_book"   style="display: none"></div>
 </div>
+<!--- 移动端悬浮按钮贴边半隐藏，点击展开 开始 --->
+<style>
+    @media screen and (max-width: 768px) {
+        .joe_action {
+            right: 12px;
+            transition: transform .35s ease, opacity .35s ease;
+        }
+        .joe_action.joe_action--collapsed {
+            transform: translateX(calc(50% + 12px));
+            opacity: .45;
+        }
+        .joe_action.joe_action--collapsed:active {
+            opacity: .7;
+        }
+    }
+</style>
+<script>
+    (function () {
+        var action = document.querySelector('.joe_action');
+        if (!action) return;
+        var mq = window.matchMedia('(max-width: 768px)');
+        var COLLAPSED = 'joe_action--collapsed';
+        function apply() {
+            mq.matches ? action.classList.add(COLLAPSED) : action.classList.remove(COLLAPSED);
+        }
+        apply();
+        if (mq.addEventListener) {
+            mq.addEventListener('change', apply);
+        } else if (mq.addListener) {
+            mq.addListener(apply);
+        }
+        /* 折叠状态下首次点击只负责展开，并拦截内部按钮的点击 */
+        action.addEventListener('click', function (e) {
+            if (mq.matches && action.classList.contains(COLLAPSED)) {
+                e.stopPropagation();
+                e.preventDefault();
+                action.classList.remove(COLLAPSED);
+            }
+        }, true);
+        /* 点击外部区域重新折叠回边缘 */
+        document.addEventListener('click', function (e) {
+            if (mq.matches && !action.classList.contains(COLLAPSED) && !action.contains(e.target)) {
+                action.classList.add(COLLAPSED);
+            }
+        });
+    })();
+</script>
+<!--- 移动端悬浮按钮贴边半隐藏，点击展开 结束 --->
 <?php if ($this->options->JGlobalThemeStatus === 'on') : ?>
     <script src="https://cdn.jsdelivr.net/npm/jquery-colpick@3.1.0/js/colpick.min.js"></script>
 <?php endif; ?>

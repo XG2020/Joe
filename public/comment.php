@@ -15,18 +15,20 @@
             <div id="<?php $this->respondId(); ?>" class="joe_comment__respond">
                 <div class="joe_comment__respond-type">
                     <?php if ($this->options->JCommentImg === 'on') : ?>
-                        <div class="joe_comment__upload">
-                            <span class="showFileName"></span>
-                            <a href="javascript:;" id="joe_comment_upload" class="file">
+                        <a href="javascript:;" id="joe_comment_upload" class="file">
                                 <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M740.693333 750.933333h-102.4c-20.48 0-34.133333-13.653333-34.133333-34.133333s13.653333-34.133333 34.133333-34.133333h102.4c58.026667 0 102.4-44.373333 102.4-102.4 0-47.786667-34.133333-88.746667-78.506666-98.986667-17.066667-3.413333-27.306667-20.48-27.306667-37.546667 3.413333-13.653333 3.413333-23.893333 3.413333-34.133333 0-112.64-92.16-204.8-204.8-204.8-88.746667 0-170.666667 61.44-197.973333 146.773333 0 13.653333-13.653333 23.893333-27.306667 23.893334-81.92 3.413333-146.773333 71.68-146.773333 153.6 0 85.333333 68.266667 153.6 153.6 153.6h51.2c20.48 0 34.133333 13.653333 34.133333 34.133333s-13.653333 34.133333-34.133333 34.133333H314.026667c-122.88 0-221.866667-98.986667-221.866667-221.866666 0-112.64 81.92-204.8 191.146667-218.453334 40.96-102.4 143.36-174.08 252.586666-174.08 150.186667 0 273.066667 122.88 273.066667 273.066667v13.653333c61.44 27.306667 102.4 88.746667 102.4 157.013334 0 95.573333-75.093333 170.666667-170.666667 170.666666z m-204.8 102.4V477.866667c0-13.653333-6.826667-23.893333-20.48-30.72-10.24-6.826667-23.893333-3.413333-34.133333 3.413333l-136.533333 102.4c-13.653333 10.24-17.066667 34.133333-6.826667 47.786667 10.24 13.653333 34.133333 17.066667 47.786667 6.826666l81.92-61.44v307.2c0 20.48 13.653333 34.133333 34.133333 34.133334s34.133333-13.653333 34.133333-34.133334z m129.706667-252.586666c10.24-13.653333 6.826667-37.546667-6.826667-47.786667l-34.133333-27.306667c-13.653333-10.24-37.546667-6.826667-47.786667 6.826667-10.24 13.653333-6.826667 37.546667 6.826667 47.786667l34.133333 27.306666c6.826667 3.413333 13.653333 6.826667 20.48 6.826667 10.24 0 20.48-3.413333 27.306667-13.653333z" fill="currentColor"></path></svg>
                                 <input id="joe_comment_file" type="file" accept="image/*">
-                            </a>
-                            <button type="button" id="joe_comment_img_btn">插入</button>
-                        </div>
+                        </a>
                     <?php endif; ?>
                     <button class="item" data-type="draw">画图模式</button>
                     <button class="item active" data-type="text">文本模式</button>
                 </div>
+                <?php if ($this->options->JCommentImg === 'on') : ?>
+                    <div class="joe_comment__upload-bar" style="display: none;">
+                        <span class="showFileName"></span>
+                        <button type="button" id="joe_comment_img_btn">插入</button>
+                    </div>
+                <?php endif; ?>
                 <form method="post" class="joe_comment__respond-form" action="<?php $this->commentUrl() ?>" data-type="text">
                     <div class="head">
                         <div class="list">
@@ -125,58 +127,65 @@
             max-height: 150px;
         }
     }
-    .joe_comment__upload {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    .joe_comment__upload .showFileName {
-        max-width: 130px;
-        font-size: 12px;
-        color: var(--minor);
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-    .joe_comment__upload .file {
+    /* 上传图片按钮（与画图/文本模式同一行） */
+    #joe_comment_upload.file {
         position: relative;
         display: inline-flex;
         align-items: center;
-        gap: 4px;
+        justify-content: center;
         height: 32px;
-        padding: 0 12px;
+        padding: 0 10px;
         overflow: hidden;
         border-radius: 3px;
-        font-size: 13px;
         color: var(--main);
         background: var(--classD);
         transition: all 0.35s;
     }
-    .joe_comment__upload .file:hover { color: var(--theme); }
-    .joe_comment__upload .file input {
+    #joe_comment_upload.file:hover { color: var(--theme); }
+    #joe_comment_upload.file input {
         position: absolute;
         top: 0;
-        right: 0;
+        left: 0;
+        width: 100%;
         height: 100%;
-        font-size: 100px;
+        font-size: 0;
         opacity: 0;
         cursor: pointer;
     }
-    .joe_comment__upload button {
-        height: 32px;
-        padding: 0 15px;
+    /* 选中文件后向下展开的信息条（标签/表格风格） */
+    .joe_comment__upload-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin: 10px 0 4px;
+        padding: 8px 12px;
+        border: 1px solid var(--classC);
+        border-radius: 6px;
+        background: var(--classD);
+    }
+    .joe_comment__upload-bar .showFileName {
+        flex: 1 1 auto;
+        min-width: 0;
+        font-size: 13px;
+        color: var(--main);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .joe_comment__upload-bar button {
+        flex: 0 0 auto;
+        height: 30px;
+        padding: 0 16px;
         border: none;
-        border-radius: 3px;
+        border-radius: 4px;
         font-size: 13px;
         color: #fff;
         background: var(--theme);
         cursor: pointer;
         transition: all 0.35s;
     }
-    .joe_comment__upload button:disabled { opacity: 0.6; cursor: not-allowed; }
-    @media screen and (max-width: 768px) {
-        .joe_comment__upload .showFileName { display: none; }
-    }
+    .joe_comment__upload-bar button:disabled { opacity: 0.6; cursor: not-allowed; }
 </style>
 <script type="text/javascript">
     (function () {
