@@ -176,6 +176,33 @@ function themeConfig($form)
     $JCommentImgApi->setAttribute('class', 'joe_content joe_global');
     $form->addInput($JCommentImgApi);
 
+    $JCdnStatus = new Typecho_Widget_Helper_Form_Element_Select(
+        'JCdnStatus',
+        array(
+            'on' => '开启（默认，使用 CDN）',
+            'off' => '关闭（使用本地资源）'
+        ),
+        'on',
+        '是否引用 CDN 资源文件',
+        '介绍：默认开启，前端公共库（jQuery/fancybox/aplayer/qmsg/font-awesome/prism 等）从 fastly.jsdelivr.net 加载 <br>
+         关闭后改为调用主题本地 assets/cdn/ 目录下的资源文件，适合 CDN 访问受限或需完全本地化的场景 <br>
+         注意：本地化不含用户自选的 prism 高亮主题与 live2d 模型，若选用了这些且关闭 CDN，它们仍会走 CDN'
+    );
+    $JCdnStatus->setAttribute('class', 'joe_content joe_global');
+    $form->addInput($JCdnStatus->multiMode());
+
+    $JCdnUrl = new Typecho_Widget_Helper_Form_Element_Text(
+        'JCdnUrl',
+        NULL,
+        '',
+        '自定义 CDN 源地址（可选）',
+        '介绍：仅在上方【引用 CDN 资源文件】为开启时生效 <br>
+         填写 CDN 根地址（需能按 jsDelivr 的 npm 路径访问，如 https://cdn.jsdelivr.net/ 、https://jsd.cdn.zzko.cn/ 等），结尾带不带斜杠均可 <br>
+         留空则默认使用 https://fastly.jsdelivr.net/'
+    );
+    $JCdnUrl->setAttribute('class', 'joe_content joe_global');
+    $form->addInput($JCdnUrl);
+
     $JNavMaxNum = new Typecho_Widget_Helper_Form_Element_Select(
         'JNavMaxNum',
         array(

@@ -1,3 +1,10 @@
+<?php
+/* CDN/本地资源基址：JCdnStatus 关闭时用本地 assets/cdn/；开启时优先自定义 CDN 源，否则回退 fastly */
+$JoeCdnUrl = trim((string) $this->options->JCdnUrl);
+$JoeCdn = ($this->options->JCdnStatus === 'off')
+    ? rtrim($this->options->themeUrl, '/') . '/assets/cdn/'
+    : ($JoeCdnUrl !== '' ? rtrim($JoeCdnUrl, '/') . '/' : 'https://fastly.jsdelivr.net/');
+?>
 <footer class="joe_footer">
     <div class="joe_container">
         <div class="item">
@@ -104,7 +111,7 @@
 </script>
 <!--- 移动端悬浮按钮贴边半隐藏，点击展开 结束 --->
 <?php if ($this->options->JGlobalThemeStatus === 'on') : ?>
-    <script src="https://fastly.jsdelivr.net/npm/jquery-colpick@3.1.0/js/colpick.min.js"></script>
+    <script src="<?php echo $JoeCdn; ?>npm/jquery-colpick@3.1.0/js/colpick.min.js"></script>
 <?php endif; ?>
 <!-- 目录树 -->
 <?php if ($this->options->JDirectoryStatus === 'on'  && !_isMobile()) : ?>

@@ -1,4 +1,11 @@
 <?php $this->need('public/config.php'); ?>
+<?php
+/* CDN/本地资源基址：JCdnStatus 关闭时用本地 assets/cdn/；开启时优先自定义 CDN 源，否则回退 fastly */
+$JoeCdnUrl = trim((string) $this->options->JCdnUrl);
+$JoeCdn = ($this->options->JCdnStatus === 'off')
+    ? rtrim($this->options->themeUrl, '/') . '/assets/cdn/'
+    : ($JoeCdnUrl !== '' ? rtrim($JoeCdnUrl, '/') . '/' : 'https://fastly.jsdelivr.net/');
+?>
 <meta charset="utf-8" />
 <meta name="renderer" content="webkit" />
 <meta name="format-detection" content="email=no" />
@@ -24,25 +31,25 @@
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.responsive.min.css'); ?>">
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.compat.css'); ?>">
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/bootstrap-grid.min.css'); ?>">
-<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/typecho-joe-next@6.0.0/plugin/qmsg/qmsg.css">
-<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
-<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css" />
-<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<link rel="stylesheet" href="<?php echo $JoeCdn; ?>npm/typecho-joe-next@6.0.0/plugin/qmsg/qmsg.css">
+<link rel="stylesheet" href="<?php echo $JoeCdn; ?>npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+<link rel="stylesheet" href="<?php echo $JoeCdn; ?>npm/animate.css@3.7.2/animate.min.css" />
+<link rel="stylesheet" href="<?php echo $JoeCdn; ?>npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="<?php echo $JoeCdn; ?>npm/aplayer@1.10.1/dist/APlayer.min.css">
 <link rel="stylesheet" type="text/css" href="<?php $this->options->themeUrl('assets//css/alert.css'); ?>">
-<script src="https://fastly.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-<script src="https://fastly.jsdelivr.net/npm/typecho-joe-next@6.0.0/plugin/scroll/joe.scroll.js"></script>
-<script src="https://fastly.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js"></script>
-<script src="https://fastly.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
-<script src="https://fastly.jsdelivr.net/npm/typecho-joe-next@6.0.0/plugin/sketchpad/joe.sketchpad.js"></script>
-<script src="https://fastly.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
-<script src="https://fastly.jsdelivr.net/npm/typecho-joe-next@6.0.0/assets/js/joe.extend.min.js"></script>
-<script src="https://fastly.jsdelivr.net/npm/typecho-joe-next@6.0.0/plugin/qmsg/qmsg.js"></script>
+<script src="<?php echo $JoeCdn; ?>npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="<?php echo $JoeCdn; ?>npm/typecho-joe-next@6.0.0/plugin/scroll/joe.scroll.js"></script>
+<script src="<?php echo $JoeCdn; ?>npm/lazysizes@5.3.0/lazysizes.min.js"></script>
+<script src="<?php echo $JoeCdn; ?>npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="<?php echo $JoeCdn; ?>npm/typecho-joe-next@6.0.0/plugin/sketchpad/joe.sketchpad.js"></script>
+<script src="<?php echo $JoeCdn; ?>npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="<?php echo $JoeCdn; ?>npm/typecho-joe-next@6.0.0/assets/js/joe.extend.min.js"></script>
+<script src="<?php echo $JoeCdn; ?>npm/typecho-joe-next@6.0.0/plugin/qmsg/qmsg.js"></script>
 <script src="<?php $this->options->themeUrl('assets/js/alert.js'); ?>"></script>
 <?php if ($this->options->JAside_3DTag === 'on') : ?>
-    <script src="https://fastly.jsdelivr.net/npm/typecho-joe-next@6.2.3/plugin/3dtag/3dtag.min.js"></script>
+    <script src="<?php echo $JoeCdn; ?>npm/typecho-joe-next@6.2.3/plugin/3dtag/3dtag.min.js"></script>
 <?php endif; ?>
-<script src="https://fastly.jsdelivr.net/npm/typecho-joe-next@6.0.0/plugin/smooth/joe.smooth.js" async></script>
+<script src="<?php echo $JoeCdn; ?>npm/typecho-joe-next@6.0.0/plugin/smooth/joe.smooth.js" async></script>
 <?php if ($this->options->JCursorEffects && $this->options->JCursorEffects !== 'off') : ?>
     <script src="<?php $this->options->themeUrl('assets/cursor/' . $this->options->JCursorEffects); ?>" async></script>
 <?php endif; ?>
@@ -55,7 +62,7 @@
 <?php endif; ?>
 <!-- 颜色选择器 -->
 <?php if ($this->options->JGlobalThemeStatus === 'on') : ?>
-    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/jquery-colpick@3.1.0/css/colpick.min.css" />
+    <link rel="stylesheet" href="<?php echo $JoeCdn; ?>npm/jquery-colpick@3.1.0/css/colpick.min.css" />
 <?php endif; ?>
 <script src="<?php $this->options->themeUrl('assets/js/joe.global.min.js?v=7.2.9'); ?>"></script>
 <script src="<?php $this->options->themeUrl('assets/js/joe.short.min.js?v=7.2.9'); ?>"></script>
