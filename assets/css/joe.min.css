@@ -75,11 +75,15 @@
 
 /*阅读模式*/
 .read_book {
-    background: url(https://xggm.top/img/yuedu.png) var(--background) no-repeat center
+    background: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2031.39%2030.19'%3E%3Ccircle%20fill='%23ffb74c'%20cx='15.69'%20cy='8.26'%20r='4.07'/%3E%3Cpolygon%20fill='%237986cb'%20points='6.18%2011.4%2015.69%2013.92%2015.69%2026%206.46%2023.79%206.18%2011.4'/%3E%3Cpolygon%20fill='%235c6bc0'%20points='25.21%2011.4%2015.69%2013.92%2015.69%2026%2024.93%2023.79%2025.21%2011.4'/%3E%3Cellipse%20fill='%23ffb74c'%20cx='6.28'%20cy='17.57'%20rx='1.93'%20ry='2.25'/%3E%3Cellipse%20fill='%23ffb74c'%20cx='25.11'%20cy='17.57'%20rx='1.93'%20ry='2.25'/%3E%3C/svg%3E") var(--background) no-repeat center;
+    background-size: 35px 35px
 }
 
 .not_read_book {
-    background: url(https://xggm.top/img/yuedu1.png) var(--background) no-repeat center
+    background: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2031.39%2030.19'%3E%3Ccircle%20fill='%23ffb74c'%20cx='15.69'%20cy='8.26'%20r='4.07'/%3E%3Cpolygon%20fill='%237986cb'%20points='6.18%2011.4%2015.69%2013.92%2015.69%2026%206.46%2023.79%206.18%2011.4'/%3E%3Cpolygon%20fill='%235c6bc0'%20points='25.21%2011.4%2015.69%2013.92%2015.69%2026%2024.93%2023.79%2025.21%2011.4'/%3E%3Cellipse%20fill='%23ffb74c'%20cx='6.28'%20cy='17.57'%20rx='1.93'%20ry='2.25'/%3E%3Cellipse%20fill='%23ffb74c'%20cx='25.11'%20cy='17.57'%20rx='1.93'%20ry='2.25'/%3E%3C/svg%3E") var(--background) no-repeat center;
+    background-size: 35px 35px;
+    filter: grayscale(100%);
+    opacity: .7
 }
 
 .read_book_button {
