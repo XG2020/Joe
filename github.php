@@ -78,7 +78,7 @@
                     </span>
                 </div></div>
                 <div class="j-index-article article">
-                    <div class="j-card-default banner"><code class="j-typing" style="margin:0;opacity: 1;padding-left:2%;min-height: 160px;max-height: 180px;background-position: center;background-repeat: no-repeat;background-size: cover;background-color: transparent;overflow: hidden;width:100%;height: 100%;background-image: url('https://www.xggm.top/img/bg1.gif')">
+                    <div class="j-card-default banner"><code class="github-info-typing" style="display:block;margin:0;opacity: 1;padding-left:2%;min-height: 160px;max-height: 180px;background-position: center;background-repeat: no-repeat;background-size: cover;background-color: transparent;overflow: hidden;width:100%;height: 100%;background-image: url('https://www.xggm.top/img/bg1.gif')">
 
                             <p>// Github Information</p>
                             <b>"name"</b> ：<b>"<?php echo $e->name; ?>"</b>,<br>
@@ -88,6 +88,30 @@
                             <b>"public_repos"</b> ：<b>"<?php echo $e->public_repos; ?>"</b> ， <b>"followers"</b> ：<b>"<?php echo $e->followers; ?>"</b> ， <b>"following"</b> ：<b>"<?php echo $e->following; ?>"</b>
                             
                     </code></div>
+                    <script type="text/javascript">
+                    (function () {
+                        var el = document.querySelector('.github-info-typing');
+                        if (!el || el.dataset.typed) return;
+                        el.dataset.typed = '1';
+                        // 折叠多余空白（与 code 默认渲染一致），避免逐字时因缩进出现长时间停顿
+                        var full = el.innerHTML.replace(/\s+/g, ' ').trim();
+                        // 拆分为：标签 / HTML 实体 / 单个字符
+                        var tokens = full.match(/(<[^>]+>|&[^;]+;|[\s\S])/g) || [];
+                        el.innerHTML = '';
+                        var i = 0, buf = '';
+                        var timer = setInterval(function () {
+                            if (i >= tokens.length) { clearInterval(timer); el.innerHTML = full; return; }
+                            // 标签与空白瞬间补全，仅可见字符逐个显示，保留 <b>/<br> 等格式
+                            var instant;
+                            do {
+                                buf += tokens[i];
+                                instant = tokens[i].charAt(0) === '<' || /^\s$/.test(tokens[i]);
+                                i++;
+                            } while (i < tokens.length && instant);
+                            el.innerHTML = buf;
+                        }, 45);
+                    })();
+                    </script>
                     <small class="text-muted letterspacing github_tips"></small>
 
                     <div class="github_page">
