@@ -20,10 +20,83 @@ function themeConfig($form)
 ?>
     <link rel="stylesheet" href="<?php Helper::options()->themeUrl('typecho/config/css/joe.config.min.css') ?>">
     <script src="<?php Helper::options()->themeUrl('typecho/config/js/joe.config.min.js') ?>"></script>
+    <style>
+        .joe_config__search {
+            margin-bottom: 10px;
+        }
+        .joe_config__search input {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 15px;
+            border: 1px solid #e9e9eb;
+            border-radius: 20px;
+            color: #606266;
+            font-size: 14px;
+            transition: border-color 0.35s;
+        }
+        .joe_config__search input:focus {
+            border-color: #409eff;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var input = document.querySelector("#joe_config_search");
+            var form = document.querySelector(".joe_config > form");
+            var notice = document.querySelector(".joe_config__notice");
+            var tabs = document.querySelectorAll(".joe_config__aside .item");
+            var contents = document.querySelectorAll(".joe_content");
+            if (!input || !form) return;
+
+            /* 无结果提示 */
+            var empty = document.createElement("div");
+            empty.style.cssText = "display:none;padding:30px 15px;text-align:center;color:#909399;";
+            empty.textContent = "没有匹配的设置项";
+            form.insertBefore(empty, form.firstChild);
+
+            function activeCategory() {
+                var el = document.querySelector(".joe_config__aside .item.active");
+                return el ? el.getAttribute("data-current") : "joe_global";
+            }
+            function restore() {
+                var cat = activeCategory();
+                empty.style.display = "none";
+                if (cat === "joe_notice") {
+                    if (notice) notice.style.display = "block";
+                    form.style.display = "none";
+                } else {
+                    if (notice) notice.style.display = "none";
+                    form.style.display = "block";
+                }
+                contents.forEach(function (el) {
+                    el.style.display = el.classList.contains(cat) ? "block" : "none";
+                });
+            }
+            input.addEventListener("input", function () {
+                var kw = this.value.trim().toLowerCase();
+                if (!kw) { restore(); return; }
+                if (notice) notice.style.display = "none";
+                form.style.display = "block";
+                var matched = 0;
+                contents.forEach(function (el) {
+                    var hit = el.textContent.toLowerCase().indexOf(kw) !== -1;
+                    el.style.display = hit ? "block" : "none";
+                    if (hit) matched++;
+                });
+                empty.style.display = matched ? "none" : "block";
+            });
+            tabs.forEach(function (t) {
+                t.addEventListener("click", function () { input.value = ""; });
+            });
+        });
+    </script>
     <div class="joe_config">
         <div>
             <div class="joe_config__aside">
                 <div class="logo">Joe <?php echo _getVersion() ?></div>
+                <div class="joe_config__search">
+                    <input type="text" id="joe_config_search" autocomplete="off" placeholder="搜索设置项..." />
+                </div>
                 <ul class="tabs">
                     <li class="item" data-current="joe_notice">最新公告</li>
                     <li class="item" data-current="joe_global">全局设置</li>
