@@ -87,6 +87,10 @@ class WeatherWidget {
 
     init() {
         this.createWidget();
+        // 无 .xweather 容器（如移动端隐藏侧边栏）时直接退出，避免后续 querySelector 报错
+        if (!this.container) {
+            return;
+        }
         this.initProvinceSelector();
         this.loadWeather();
         
