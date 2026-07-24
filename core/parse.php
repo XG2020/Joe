@@ -31,12 +31,10 @@ function _checkXSS($text)
         '/eval/is',
         '/ascript:/is',
         '/style=/is',
-        '/width=/is',
-        '/width:/is',
-        '/height=/is',
-        '/height:/is',
     );
-    if (strip_tags($text)) {
+    // 去标签后仍有文本，或包含图片/音视频等媒体标签，则按黑名单检测；
+    // 纯图片评论去标签后为空属正常，不再误判为异常
+    if (strip_tags($text) !== '' || preg_match('/<(img|video|audio|source)[\s\/>]/is', $text)) {
         for ($i = 0; $i < count($list); $i++) {
             if (preg_match($list[$i], $text) > 0) {
                 $isXss = true;

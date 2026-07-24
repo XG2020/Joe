@@ -78,6 +78,31 @@ function themeConfig($form)
     $JCommentStatus->setAttribute('class', 'joe_content joe_global');
     $form->addInput($JCommentStatus->multiMode());
 
+    $JCommentImg = new Typecho_Widget_Helper_Form_Element_Select(
+        'JCommentImg',
+        array(
+            'off' => '关闭（默认）',
+            'on' => '开启'
+        ),
+        'off',
+        '是否开启评论图片上传',
+        '介绍：开启后，评论框会出现图片上传按钮，上传成功后自动插入 Markdown 图片语法 <br>
+         注意：需在后台【评论】设置中开启 Markdown，并将 img/a 加入允许的 HTML 标签'
+    );
+    $JCommentImg->setAttribute('class', 'joe_content joe_global');
+    $form->addInput($JCommentImg->multiMode());
+
+    $JCommentImgApi = new Typecho_Widget_Helper_Form_Element_Text(
+        'JCommentImgApi',
+        NULL,
+        '',
+        '评论图片上传图床接口（可选）',
+        '介绍：填写自建图床上传接口地址(POST 方式，文件字段名 file，返回 JSON 需含图片直链) <br>
+         留空则默认调用 Typecho 自带上传接口（仅登录用户可用，游客上传需配置图床接口）'
+    );
+    $JCommentImgApi->setAttribute('class', 'joe_content joe_global');
+    $form->addInput($JCommentImgApi);
+
     $JNavMaxNum = new Typecho_Widget_Helper_Form_Element_Select(
         'JNavMaxNum',
         array(

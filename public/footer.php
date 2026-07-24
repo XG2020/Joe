@@ -235,4 +235,8 @@ document.body.oncopy=function(){warning();}
 
 <?php $this->options->JCustomBodyEnd() ?>
 
+<?php if ($this->options->JCommentImg === 'on') : ?>
+    <script type="text/javascript" src="<?php $this->options->themeUrl('assets/js/img.js'); ?>"></script>
+<?php endif; ?>
+
 <?php $this->footer(); ?>
