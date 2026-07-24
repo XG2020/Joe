@@ -86,7 +86,8 @@ function _parseLeavingReply($text)
     if (_checkXSS($text)) {
         echo "该回复疑似异常，已被系统拦截！";
     } else {
-        $text = strip_tags($text);
+        // 保留后台“评论允许的 HTML 标签”白名单内的标签（img/a/video/audio 等），其余标签仍过滤
+        $text = strip_tags($text, '<p><br><img><a><blockquote><pre><code><strong><em><u><s><h1><h2><h3><video><source><audio>');
         $text = _parseReply($text);
         echo preg_replace('/\{!\{([^\"]*)\}!\}/', '<img class="draw_image" src="$1" alt="画图"/>', $text);
     }

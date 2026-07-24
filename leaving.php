@@ -16,6 +16,37 @@
     <?php $this->need('public/include.php'); ?>
     <script src="https://fastly.jsdelivr.net/npm/draggabilly@2.3.0/dist/draggabilly.pkgd.js"></script>
     <script src="<?php $this->options->themeUrl('assets/js/joe.leaving.min.js'); ?>"></script>
+    <style>
+        .joe_detail__leaving-list .item .wrapper .content a[data-fancybox] {
+            display: block;
+        }
+        .joe_detail__leaving-list .item .wrapper .content img:not(.owo_image),
+        .joe_detail__leaving-list .item .wrapper .content video {
+            display: block;
+            max-width: 100%;
+            max-height: 128px;
+            width: auto;
+            height: auto;
+            margin: 6px auto;
+            border-radius: 6px;
+            object-fit: contain;
+            cursor: zoom-in;
+        }
+        .joe_detail__leaving-list .item .wrapper .content audio {
+            width: 100%;
+            margin: 6px 0;
+        }
+        /* 隐藏便签内容区滚动条（保留滚动功能） */
+        .joe_detail__leaving-list .item .wrapper .content {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .joe_detail__leaving-list .item .wrapper .content::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -52,6 +83,21 @@
         </div>
         <?php $this->need('public/footer.php'); ?>
     </div>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var imgs = document.querySelectorAll('.joe_detail__leaving-list .item .wrapper .content img:not(.owo_image)');
+            Array.prototype.forEach.call(imgs, function (img) {
+                if (img.closest('a[data-fancybox]')) return;
+                var src = img.getAttribute('data-src') || img.getAttribute('src');
+                if (!src) return;
+                var link = document.createElement('a');
+                link.setAttribute('data-fancybox', 'leaving');
+                link.setAttribute('href', src);
+                img.parentNode.insertBefore(link, img);
+                link.appendChild(img);
+            });
+        });
+    </script>
 </body>
 
 </html>

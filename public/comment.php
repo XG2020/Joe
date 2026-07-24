@@ -97,6 +97,31 @@
     <?php endif; ?>
 </div>
 
+<style>
+    .joe_comment .substance img:not(.owo_image) {
+        max-width: 100%;
+        height: auto;
+        border-radius: 6px;
+        cursor: zoom-in;
+    }
+</style>
+<script type="text/javascript">
+    (function () {
+        function bindCommentImageFancybox() {
+            if (typeof $ === 'undefined' || !$.fancybox) return;
+            $(document).on('click', '.joe_comment .substance img:not(.owo_image)', function () {
+                /* 已包在链接里的图片交给链接自己处理 */
+                if ($(this).closest('a').length) return;
+                var src = this.getAttribute('data-src') || this.getAttribute('data-original') || this.getAttribute('src');
+                if (!src) return;
+                $.fancybox.open({ src: src, type: 'image', opts: { caption: this.alt || '' } });
+            });
+        }
+        if (typeof $ !== 'undefined') { bindCommentImageFancybox(); }
+        else { document.addEventListener('DOMContentLoaded', bindCommentImageFancybox); }
+    })();
+</script>
+
 <?php
 function threadedComments($comments, $options)
 { ?>
