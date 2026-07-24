@@ -104,7 +104,7 @@
 </script>
 <!--- 移动端悬浮按钮贴边半隐藏，点击展开 结束 --->
 <?php if ($this->options->JGlobalThemeStatus === 'on') : ?>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-colpick@3.1.0/js/colpick.min.js"></script>
+    <script src="https://fastly.jsdelivr.net/npm/jquery-colpick@3.1.0/js/colpick.min.js"></script>
 <?php endif; ?>
 <!-- 目录树 -->
 <?php if ($this->options->JDirectoryStatus === 'on'  && !_isMobile()) : ?>

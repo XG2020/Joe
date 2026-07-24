@@ -55,7 +55,7 @@
 <?php endif; ?>
 <!-- 颜色选择器 -->
 <?php if ($this->options->JGlobalThemeStatus === 'on') : ?>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-colpick@3.1.0/css/colpick.min.css" />
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/jquery-colpick@3.1.0/css/colpick.min.css" />
 <?php endif; ?>
 <script src="<?php $this->options->themeUrl('assets/js/joe.global.min.js?v=7.2.9'); ?>"></script>
 <script src="<?php $this->options->themeUrl('assets/js/joe.short.min.js?v=7.2.9'); ?>"></script>
