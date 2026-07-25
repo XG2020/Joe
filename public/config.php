@@ -31,6 +31,7 @@
         GLOBAL_THEME: `<?php $this->options->JGlobalThemeColor() ?>`,
         DOCUMENT_PROGRESS: `<?php echo $this->options->JProgressStatus === 'on' ? 'on' : 'off' ?>`,
         DOCUMENT_TITLE: '<?php $this->options->JDocumentTitle ? $this->options->JDocumentTitle() : null ?>',
+        LIST_TARGET: `<?php echo $this->options->JListTarget === '_self' ? '_self' : '_blank' ?>`,
         JASIDE_WEATHER_IKEY: `<?php $this->options->JAside_Weather_IKey() ?>`
     }
 </script>

@@ -17,7 +17,7 @@
 	<script src="https://fastly.jsdelivr.net/npm/swiper@5.4.5/js/swiper.min.js"></script>
 	<script src="https://fastly.jsdelivr.net/npm/wowjs@1.1.3/dist/wow.min.js"></script>
 	<link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.index.min.css'); ?>">
-	<script src="<?php $this->options->themeUrl('assets/js/joe.index.min.js'); ?>"></script>
+	<script src="<?php $this->options->themeUrl('assets/js/joe.index.min.js?v=7.3.1'); ?>"></script>
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9986025843474101"
 		crossorigin="anonymous"></script>
 </head>

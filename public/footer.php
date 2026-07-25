@@ -80,33 +80,42 @@ $JoeCdn = ($this->options->JCdnStatus === 'off')
 </style>
 <script>
     (function () {
-        var action = document.querySelector('.joe_action');
-        if (!action) return;
         var mq = window.matchMedia('(max-width: 768px)');
         var COLLAPSED = 'joe_action--collapsed';
+        function getAction() {
+            return document.querySelector('.joe_action');
+        }
         function apply() {
+            var action = getAction();
+            if (!action) return;
             mq.matches ? action.classList.add(COLLAPSED) : action.classList.remove(COLLAPSED);
         }
         apply();
+        /* document/matchMedia 级监听只绑一次，Pjax 换页重执行时仅重设折叠状态 */
+        if (window.__joeActionCollapseInit) return;
+        window.__joeActionCollapseInit = true;
         if (mq.addEventListener) {
             mq.addEventListener('change', apply);
         } else if (mq.addListener) {
             mq.addListener(apply);
         }
-        /* 折叠状态下首次点击只负责展开，并拦截内部按钮的点击 */
-        action.addEventListener('click', function (e) {
-            if (mq.matches && action.classList.contains(COLLAPSED)) {
-                e.stopPropagation();
-                e.preventDefault();
-                action.classList.remove(COLLAPSED);
-            }
-        }, true);
-        /* 点击外部区域重新折叠回边缘 */
         document.addEventListener('click', function (e) {
-            if (mq.matches && !action.classList.contains(COLLAPSED) && !action.contains(e.target)) {
+            var action = getAction();
+            if (!action || !mq.matches) return;
+            /* 折叠状态下首次点击只负责展开，并拦截内部按钮的点击 */
+            if (action.classList.contains(COLLAPSED)) {
+                if (action.contains(e.target)) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    action.classList.remove(COLLAPSED);
+                }
+                return;
+            }
+            /* 点击外部区域重新折叠回边缘 */
+            if (!action.contains(e.target)) {
                 action.classList.add(COLLAPSED);
             }
-        });
+        }, true);
     })();
 </script>
 <!--- 移动端悬浮按钮贴边半隐藏，点击展开 结束 --->
@@ -291,7 +300,7 @@ document.body.oncopy=function(){warning();}
 <?php $this->options->JCustomBodyEnd() ?>
 
 <?php if ($this->options->JCommentImg === 'on') : ?>
-    <script type="text/javascript" src="<?php $this->options->themeUrl('assets/js/img.js'); ?>"></script>
+    <script type="text/javascript" src="<?php $this->options->themeUrl('assets/js/img.min.js'); ?>"></script>
 <?php endif; ?>
 
 <?php $this->footer(); ?>

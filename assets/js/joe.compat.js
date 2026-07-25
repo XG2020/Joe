@@ -127,12 +127,20 @@
 		});
 	}
 
-	$(function () {
+	/* 委托绑定只需一次，元素级初始化每页重跑（兼容 Pjax 换页） */
+	var delegatesBound = false;
+	function initPage() {
 		if (!$(SCOPE).length) return;
-		initCopy();
+		if (!delegatesBound) {
+			delegatesBound = true;
+			initCopy();
+			initCollapse();
+			initVideoPreview();
+		}
 		initTyping();
 		initTabs();
-		initCollapse();
-		initVideoPreview();
-	});
+	}
+
+	$(initPage);
+	if (window.JoePjax) window.JoePjax.onLoad(initPage);
 })(window.jQuery);

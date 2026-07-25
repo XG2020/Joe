@@ -50,7 +50,7 @@
         return { url: "", name: "" };
     }
 
-    $(function () {
+    function init() {
         var $file = $("#joe_comment_file");
         var $btn = $("#joe_comment_img_btn");
         var $bar = $(".joe_comment__upload-bar");
@@ -137,5 +137,9 @@
                 }
             });
         });
-    });
+    }
+
+    $(init);
+    /* Pjax 换页后评论区为新元素，需重新绑定 */
+    if (window.JoePjax) window.JoePjax.onLoad(init);
 })(window.jQuery);

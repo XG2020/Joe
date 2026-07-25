@@ -27,7 +27,7 @@
 <body>
     <?php $this->options->JCustomBodyStart() ?>
 
-    <div id="joe">
+    <div id="Joe">
 
     <!-- 头部 -->
     <?php $this->need('public/header.php'); ?>

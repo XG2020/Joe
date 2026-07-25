@@ -592,6 +592,28 @@ function themeConfig($form)
     $JProgressStatus->setAttribute('class', 'joe_content joe_global');
     $form->addInput($JProgressStatus->multiMode());
 
+    $JPjax = new Typecho_Widget_Helper_Form_Element_Select(
+        'JPjax',
+        array('off' => '关闭（默认）', 'on' => '开启'),
+        'off',
+        '是否开启 Pjax 无刷新加载',
+        '介绍：开启后站内跳转仅局部刷新页面，音乐播放器（如 QPlayer2 挂件）等不会被打断，发送评论后评论区也为局部刷新。<br />
+         注意：如需某个链接或表单强制整页刷新，给该元素（或其祖先）添加 data-no-pjax 属性即可。'
+    );
+    $JPjax->setAttribute('class', 'joe_content joe_global');
+    $form->addInput($JPjax->multiMode());
+    
+    $JListTarget = new Typecho_Widget_Helper_Form_Element_Select(
+    'JListTarget',
+            array('_blank' => '新窗口打开（默认）', '_self' => '当前窗口打开'),
+            '_blank',
+            '首页文章打开方式',
+            '介绍：控制首页/列表文章卡片点击后在新窗口还是当前窗口打开。<br />
+             注意：选择当前窗口打开时，配合 Pjax 开关可实现无刷新进入文章，音乐播放不中断。'
+        );
+    $JListTarget->setAttribute('class', 'joe_content joe_global');
+    $form->addInput($JListTarget->multiMode());
+
     $JAside_Author_Nick = new Typecho_Widget_Helper_Form_Element_Text(
         'JAside_Author_Nick',
         NULL,

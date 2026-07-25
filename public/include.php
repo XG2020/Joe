@@ -38,6 +38,9 @@ $JoeCdn = ($this->options->JCdnStatus === 'off')
 <link rel="stylesheet" href="<?php echo $JoeCdn; ?>npm/aplayer@1.10.1/dist/APlayer.min.css">
 <link rel="stylesheet" type="text/css" href="<?php $this->options->themeUrl('assets//css/alert.css'); ?>">
 <script src="<?php echo $JoeCdn; ?>npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<?php if ($this->options->JPjax === 'on') : ?>
+    <script src="<?php $this->options->themeUrl('assets/js/joe.pjax.min.js?v=1.0.3'); ?>"></script>
+<?php endif; ?>
 <script src="<?php echo $JoeCdn; ?>npm/typecho-joe-next@6.0.0/plugin/scroll/joe.scroll.js"></script>
 <script src="<?php echo $JoeCdn; ?>npm/lazysizes@5.3.0/lazysizes.min.js"></script>
 <script src="<?php echo $JoeCdn; ?>npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
@@ -45,7 +48,7 @@ $JoeCdn = ($this->options->JCdnStatus === 'off')
 <script src="<?php echo $JoeCdn; ?>npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 <script src="<?php echo $JoeCdn; ?>npm/typecho-joe-next@6.0.0/assets/js/joe.extend.min.js"></script>
 <script src="<?php echo $JoeCdn; ?>npm/typecho-joe-next@6.0.0/plugin/qmsg/qmsg.js"></script>
-<script src="<?php $this->options->themeUrl('assets/js/alert.js'); ?>"></script>
+<script src="<?php $this->options->themeUrl('assets/js/alert.min.js'); ?>"></script>
 <?php if ($this->options->JAside_3DTag === 'on') : ?>
     <script src="<?php echo $JoeCdn; ?>npm/typecho-joe-next@6.2.3/plugin/3dtag/3dtag.min.js"></script>
 <?php endif; ?>
@@ -64,16 +67,16 @@ $JoeCdn = ($this->options->JCdnStatus === 'off')
 <?php if ($this->options->JGlobalThemeStatus === 'on') : ?>
     <link rel="stylesheet" href="<?php echo $JoeCdn; ?>npm/jquery-colpick@3.1.0/css/colpick.min.css" />
 <?php endif; ?>
-<script src="<?php $this->options->themeUrl('assets/js/joe.global.min.js?v=7.2.9'); ?>"></script>
+<script src="<?php $this->options->themeUrl('assets/js/joe.global.min.js?v=7.3.1'); ?>"></script>
 <script src="<?php $this->options->themeUrl('assets/js/joe.short.min.js?v=7.2.9'); ?>"></script>
-<script src="<?php $this->options->themeUrl('assets/js/joe.compat.js'); ?>"></script>
+<script src="<?php $this->options->themeUrl('assets/js/joe.compat.min.js'); ?>"></script>
 <script src="<?php $this->options->themeUrl('assets/js/joe.banner.min.js'); ?>"></script>
 <?php $this->options->JCustomHeadEnd() ?>
 
 <?php if ($this->options->JSnow === 'on') : ?>
-    <script src="<?php $this->options->themeUrl('assets/js/snow.js'); ?>"></script>
+    <script src="<?php $this->options->themeUrl('assets/js/snow.min.js'); ?>"></script>
 <?php endif; ?>
 <?php if ($this->options->JAside_Weather === 'on') : ?>
     <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/xweather.css'); ?>" />
-    <script src="<?php $this->options->themeUrl('assets/js/xweather.js'); ?>"></script>
+    <script src="<?php $this->options->themeUrl('assets/js/xweather.min.js'); ?>"></script>
 <?php endif; ?>

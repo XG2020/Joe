@@ -358,13 +358,19 @@ document.addEventListener("DOMContentLoaded", () => {
                             let o = [],
                                 a = "";
                             (o = $(t).contents()),
-                            Array.from(o).forEach((e) => {
-                                    "container" === e.parentNode.className && (a = e);
+                            Array.from(o).forEach((t) => {
+                                    t.parentNode && "container" === t.parentNode.className && (a = t);
                                 }),
-                                /Joe/.test(t) ? window.location.reload() : (Qmsg.warning(a.textContent.trim() || ""), (e = !1), $(".joe_comment__respond-form .foot .submit button").html("发表评论"));
+                                /Joe/.test(t) ? (window.JoePjax ? ((e = !1), window.JoePjax.reload()) : window.location.reload()) : ((e = !1), $(".joe_comment__respond-form .foot .submit button").html("发表评论"), Qmsg.warning((a && a.textContent ? a.textContent.trim() : "") || "评论发送失败，请稍后重试"));
                         },
-                        error() {
-                            (e = !1), $(".joe_comment__respond-form .foot .submit button").html("发表评论"), Qmsg.warning("发送失败！请刷新重试！");
+                        error(t) {
+                            (e = !1), $(".joe_comment__respond-form .foot .submit button").html("发表评论");
+                            let o = "";
+                            try {
+                                const a = new DOMParser().parseFromString(t.responseText || "", "text/html").querySelector(".container");
+                                o = a ? a.textContent.trim() : "";
+                            } catch (a) {}
+                            Qmsg.warning(o || "发送失败！请刷新重试！");
                         },
                     }));
         });

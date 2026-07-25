@@ -191,6 +191,9 @@
     (function () {
         function bindCommentImageFancybox() {
             if (typeof $ === 'undefined' || !$.fancybox) return;
+            /* document 级委托只绑一次，Pjax 换页重执行时跳过，避免重复弹层 */
+            if (window.__joeCmtImgBound) return;
+            window.__joeCmtImgBound = true;
             $(document).on('click', '.joe_comment .substance img:not(.owo_image)', function () {
                 /* 已包在链接里的图片交给链接自己处理 */
                 if ($(this).closest('a').length) return;
