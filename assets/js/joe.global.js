@@ -254,23 +254,32 @@ document.addEventListener("DOMContentLoaded", () => {
             Joe.LIVE2D &&
             !window.__joeLive2dLoaded &&
             (window.__joeLive2dLoaded = !0) &&
-            $.getScript("/usr/themes/Joe/assets/cdn/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js", () => {
-                L2Dwidget.init({
-                    model: {
-                        jsonPath: Joe.LIVE2D,
-                        scale: 1
-                    },
-                    mobile: {
-                        show: !1
-                    },
-                    display: {
-                        position: "right",
-                        width: 160,
-                        height: 200,
-                        hOffset: 70,
-                        vOffset: 0
-                    }
-                });
+            /* 同源下 $.getScript 走 XHR+eval，currentScript 为空会导致 L2Dwidget
+               的 webpack 动态分块（L2Dwidget.0.min.js）退化到站点根目录 404，
+               crossDomain 强制真 <script> 标签加载保证按脚本目录解析 */
+            $.ajax({
+                url: "/usr/themes/Joe/assets/cdn/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js",
+                dataType: "script",
+                cache: !0,
+                crossDomain: !0,
+                success: () => {
+                    L2Dwidget.init({
+                        model: {
+                            jsonPath: Joe.LIVE2D,
+                            scale: 1
+                        },
+                        mobile: {
+                            show: !1
+                        },
+                        display: {
+                            position: "right",
+                            width: 160,
+                            height: 200,
+                            hOffset: 70,
+                            vOffset: 0
+                        }
+                    });
+                }
             }),
             $(".joe_comment").length &&
             $(".joe_comment__respond-type .item").on("click", function() {
