@@ -67,7 +67,7 @@ $JoeCdn = ($this->options->JCdnStatus === 'off')
 <?php if ($this->options->JGlobalThemeStatus === 'on') : ?>
     <link rel="stylesheet" href="<?php echo $JoeCdn; ?>npm/jquery-colpick@3.1.0/css/colpick.min.css" />
 <?php endif; ?>
-<script src="<?php $this->options->themeUrl('assets/js/joe.global.min.js?v=7.3.1'); ?>"></script>
+<script src="<?php $this->options->themeUrl('assets/js/joe.global.min.js?v=7.3.2'); ?>"></script>
 <script src="<?php $this->options->themeUrl('assets/js/joe.short.min.js?v=7.2.9'); ?>"></script>
 <script src="<?php $this->options->themeUrl('assets/js/joe.compat.min.js'); ?>"></script>
 <script src="<?php $this->options->themeUrl('assets/js/joe.banner.min.js'); ?>"></script>

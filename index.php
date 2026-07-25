@@ -13,9 +13,16 @@
 
 <head>
 	<?php $this->need('public/include.php'); ?>
-	<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/swiper@5.4.5/css/swiper.min.css" />
-	<script src="https://fastly.jsdelivr.net/npm/swiper@5.4.5/js/swiper.min.js"></script>
-	<script src="https://fastly.jsdelivr.net/npm/wowjs@1.1.3/dist/wow.min.js"></script>
+	<?php
+	/* CDN/本地资源基址：JCdnStatus 关闭时用本地 assets/cdn/；开启时优先自定义 CDN 源，否则回退 fastly */
+	$JoeCdnUrl = trim((string) $this->options->JCdnUrl);
+	$JoeCdn = ($this->options->JCdnStatus === 'off')
+		? rtrim($this->options->themeUrl, '/') . '/assets/cdn/'
+		: ($JoeCdnUrl !== '' ? rtrim($JoeCdnUrl, '/') . '/' : 'https://fastly.jsdelivr.net/');
+	?>
+	<link rel="stylesheet" href="<?php echo $JoeCdn; ?>npm/swiper@5.4.5/css/swiper.min.css" />
+	<script src="<?php echo $JoeCdn; ?>npm/swiper@5.4.5/js/swiper.min.js"></script>
+	<script src="<?php echo $JoeCdn; ?>npm/wowjs@1.1.3/dist/wow.min.js"></script>
 	<link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.index.min.css'); ?>">
 	<script src="<?php $this->options->themeUrl('assets/js/joe.index.min.js?v=7.3.1'); ?>"></script>
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9986025843474101"

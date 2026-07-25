@@ -26,8 +26,9 @@
 
 <body>
     <div id="dplayer"></div>
-    <script src="https://fastly.jsdelivr.net/npm/hls.js@0.14.16/dist/hls.min.js"></script>
-    <script src="https://fastly.jsdelivr.net/npm/dplayer@1.26.0/dist/DPlayer.min.js"></script>
+    <!-- 独立静态页无 Typecho 上下文，用相对路径走主题本地 CDN 镜像，避免境外 CDN 阻塞 -->
+    <script src="../assets/cdn/npm/hls.js@0.14.16/dist/hls.min.js"></script>
+    <script src="../assets/cdn/npm/dplayer@1.26.0/dist/DPlayer.min.js"></script>
     <script>
         new DPlayer({
             container: document.getElementById('dplayer'), // 播放器容器元素

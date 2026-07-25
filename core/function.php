@@ -75,7 +75,8 @@ function _getAgentOS($agent)
 		} else if (preg_match('/nt 5.1/i', $agent)) {
 			$os = 'Windows XP';
 		} else if (preg_match('/nt 10.0/i', $agent)) {
-			$os = 'Windows 10';
+			/* Win11 的 UA 仍为 NT 10.0（浏览器已冻结版本号），无法与 Win10 区分，合并标注 */
+			$os = 'Windows 10/11';
 		} else {
 			$os = 'Windows X64';
 		}
@@ -106,8 +107,13 @@ function _getAgentOS($agent)
 /* 获取全局懒加载图 */
 function _getLazyload($type = true)
 {
-	if ($type) echo Helper::options()->JLazyload;
-	else return Helper::options()->JLazyload;
+	$url = Helper::options()->JLazyload;
+	/* 后台选项存的默认值是 fastly 绝对地址，输出时替换为主题本地 CDN 镜像，避免境外请求拖慢首屏 */
+	if ($url && strpos($url, 'https://fastly.jsdelivr.net/') === 0) {
+		$url = rtrim(Helper::options()->themeUrl, '/') . '/assets/cdn/' . substr($url, strlen('https://fastly.jsdelivr.net/'));
+	}
+	if ($type) echo $url;
+	else return $url;
 }
 
 /* 获取头像懒加载图 */

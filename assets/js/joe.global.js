@@ -252,7 +252,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (
         ("off" !== Joe.LIVE2D &&
             Joe.LIVE2D &&
-            $.getScript("https://fastly.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js", () => {
+            !window.__joeLive2dLoaded &&
+            (window.__joeLive2dLoaded = !0) &&
+            $.getScript("/usr/themes/Joe/assets/cdn/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js", () => {
                 L2Dwidget.init({
                     model: {
                         jsonPath: Joe.LIVE2D,

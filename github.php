@@ -19,7 +19,14 @@
 
 <head>
     <?php $this->need('public/include.php'); ?>
-    <script src="https://fastly.jsdelivr.net/npm/draggabilly@2.3.0/dist/draggabilly.pkgd.js"></script>
+    <?php
+    /* CDN/本地资源基址：JCdnStatus 关闭时用本地 assets/cdn/；开启时优先自定义 CDN 源，否则回退 fastly */
+    $JoeCdnUrl = trim((string) $this->options->JCdnUrl);
+    $JoeCdn = ($this->options->JCdnStatus === 'off')
+        ? rtrim($this->options->themeUrl, '/') . '/assets/cdn/'
+        : ($JoeCdnUrl !== '' ? rtrim($JoeCdnUrl, '/') . '/' : 'https://fastly.jsdelivr.net/');
+    ?>
+    <script src="<?php echo $JoeCdn; ?>npm/draggabilly@2.3.0/dist/draggabilly.pkgd.js"></script>
     <script src="<?php $this->options->themeUrl('assets/js/joe.leaving.min.js'); ?>"></script>
 </head>
 
@@ -126,6 +133,9 @@
                     </div>
                 </div>
                 <script type="text/javascript">
+                    /* 包裹 IIFE：Pjax 换页会重新执行容器内联脚本，
+                       全局 const 重复声明会抱 SyntaxError 导致仓库列表加载失败 */
+                    (function () {
                     const githubItemTemple = '<div class="col-xs-12 col-sm-6 col-md-4">' +
                         '<div class="panel b-light {BG_COLOR}">\n' +
                         '        <div class="panel-body"><div class="github_language">{PROJECT_LANGUAGE}</div>' +
@@ -159,14 +169,15 @@
                         const handleGithub = function () {
                             var repoContainer = document.querySelector('.github_page')//$('.github_page');
                             var loadingContainer = document.querySelector(".github_page .loading-nav");
-                            var errorContainer = document.querySelector(".github_page .error-nav");
+                            var errorContainer = document.querySelector(".github_page nav.alert");
                             var countContainer = document.querySelector(".github_tips");
                             var colors = ["light", "info", "dark", "success", "black", "warning", "primary", "danger"];
                             let httpRequest = new XMLHttpRequest();
                             httpRequest.open('GET',"https://api.github.com/users/<?php echo $githubUser; ?>/repos?accept=application/vnd.github.v3+json&sort=updated&direction=desc&per_page=100", true);
                             httpRequest.send();
                             httpRequest.onreadystatechange = function () {
-                                if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+                                if (httpRequest.readyState !== 4) return;
+                                if (httpRequest.status === 200) {
                                     let json = JSON.parse(httpRequest.responseText);
                                     if (json){
                                         loadingContainer.classList.add("hide")
@@ -199,6 +210,10 @@
                                     }else {
                                         errorContainer.classList.remove("hide");
                                     }
+                                } else {
+                                    /* 接口失败（限流/网络错误）：收起转圈，展示重试提示 */
+                                    loadingContainer.classList.add("hide");
+                                    errorContainer.classList.remove("hide");
                                 }
                             };
                         };
@@ -210,6 +225,7 @@
                         }
                     };
                     open().init();
+                    })();
                 </script>
             </div>
         </div>
