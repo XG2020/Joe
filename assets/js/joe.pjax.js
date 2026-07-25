@@ -263,6 +263,9 @@
 	}
 
 	function afterLoad(opts) {
+		/* 移动端抽屉/搜索面板打开时 joe.global 会给 body 加 overflow:hidden 锁滚动，
+		   body 在 #Joe 容器外不随 Pjax 替换，不复位会导致新页面无法滚动 */
+		document.body.style.overflow = '';
 		/* 重触发主题各 min.js 中持久的 DOMContentLoaded 初始化 */
 		document.dispatchEvent(new Event('DOMContentLoaded', { bubbles: true, cancelable: false }));
 		loadHooks.forEach(function (fn) {
@@ -342,6 +345,11 @@
 		if (!a || a.closest('[data-no-pjax]')) return;
 		if (a.target && a.target !== '_self') return;
 		if (a.hasAttribute('download') || /(^|\s)external(\s|$)/i.test(a.rel || '')) return;
+		/* 纯锚点链接（href="#" 或 "#xxx"）交给主题 JS 处理：
+		   移动端抽屉"栏目/页面"等展开按钮就是 href="#"，
+		   其解析后 hash 为空会绕过下方同页锚点判断，误触发 Pjax 重载当前页 */
+		var raw = a.getAttribute('href');
+		if (raw && raw.charAt(0) === '#') return;
 		var href = a.href;
 		if (!/^https?:/i.test(href)) return;
 		var u;

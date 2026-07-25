@@ -39,7 +39,7 @@ $JoeCdn = ($this->options->JCdnStatus === 'off')
 <link rel="stylesheet" type="text/css" href="<?php $this->options->themeUrl('assets//css/alert.css'); ?>">
 <script src="<?php echo $JoeCdn; ?>npm/jquery@3.5.1/dist/jquery.min.js"></script>
 <?php if ($this->options->JPjax === 'on') : ?>
-    <script src="<?php $this->options->themeUrl('assets/js/joe.pjax.min.js?v=1.0.3'); ?>"></script>
+    <script src="<?php $this->options->themeUrl('assets/js/joe.pjax.min.js?v=1.0.4'); ?>"></script>
 <?php endif; ?>
 <script src="<?php echo $JoeCdn; ?>npm/typecho-joe-next@6.0.0/plugin/scroll/joe.scroll.js"></script>
 <script src="<?php echo $JoeCdn; ?>npm/lazysizes@5.3.0/lazysizes.min.js"></script>
