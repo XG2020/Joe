@@ -37,6 +37,11 @@
 </script>
 <?php
 $fontUrl = $this->options->JCustomFont;
+/* 后台选项里可能存的是绝对地址，
+指向本站 /usr/ 目录时归一化为相对路径，避免跨域拦截及换域名后字体失效 */
+if ($fontUrl && preg_match('/^https?:\/\/[^\/]+(\/usr\/.+)$/i', $fontUrl, $fontMatch)) {
+    $fontUrl = $fontMatch[1];
+}
 $fontFormat = '';
 if (strpos($fontUrl, 'woff2') !== false) $fontFormat = 'woff2';
 elseif (strpos($fontUrl, 'woff') !== false) $fontFormat = 'woff';
