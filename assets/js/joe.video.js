@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    /* Pjax 导航会重派 DOMContentLoaded：非视频页直接返回，避免白白请求视频接口 */
+    if (!document.querySelector('.joe_video__contain')) return;
     const p = new URLSearchParams(window.location.search);
     const vod_id = p.get('vod_id');
     
@@ -12,21 +14,32 @@ document.addEventListener('DOMContentLoaded', () => {
         let queryData = { pg: '', t: '', wd: '' };
         let pagecount = '';
         let isLoading = false;
-        $.ajax({
-            url: Joe.BASE_API,
-            type: 'POST',
-            dataType: 'json',
-            timeout: 15000,
-            data: { routeType: 'maccms_list' },
-            success(res) {
-                if (res.code !== 1) return $('.joe_video__type-list').html(`<li class="error">${res.data}</li>`);
-                if (!res.data.class.length) return $('.joe_video__type-list').html(`<li class="error">暂无数据！</li>`);
-                let htmlStr = '<li class="item" data-t="">全部</li>';
-                res.data.class.forEach(_ => (htmlStr += `<li class="item animated swing" data-t="${_.type_id}">${_.type_name}</li>`));
-                $('.joe_video__type-list').html(htmlStr);
-                $('.joe_video__type-list .item').first().click();
-            }
-        });
+        /* 服务端最多 15s×2 次重试，前端超时需覆盖其最坏情况 */
+        const AJAX_TIMEOUT = 35000;
+        function loadTypes() {
+            $('.joe_video__type-list').html('<li class="error">正在拼命加载中...</li>');
+            $.ajax({
+                url: Joe.BASE_API,
+                type: 'POST',
+                dataType: 'json',
+                timeout: AJAX_TIMEOUT,
+                data: { routeType: 'maccms_list' },
+                success(res) {
+                    if (res.code !== 1) return $('.joe_video__type-list').html(`<li class="error retry">${res.data}（点击重试）</li>`);
+                    if (!res.data.class.length) return $('.joe_video__type-list').html(`<li class="error">暂无数据！</li>`);
+                    let htmlStr = '<li class="item" data-t="">全部</li>';
+                    res.data.class.forEach(_ => (htmlStr += `<li class="item animated swing" data-t="${_.type_id}">${_.type_name}</li>`));
+                    $('.joe_video__type-list').html(htmlStr);
+                    $('.joe_video__type-list .item').first().click();
+                },
+                error() {
+                    /* 接口超时/网络异常：不再永远停在“加载中”，给出可点击的重试入口 */
+                    $('.joe_video__type-list').html('<li class="error retry">分类加载失败，点击重试</li>');
+                }
+            });
+        }
+        $('.joe_video__type-list').on('click', '.retry', loadTypes);
+        loadTypes();
         $('.joe_video__type-list').on('click', '.item', function () {
             const t = $(this).attr('data-t');
             if (isLoading) return;
@@ -39,16 +52,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         function renderDom() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            $('.joe_video__list-item').css('display', '').html('');
+            $('.joe_video__list-item').css('display', 'block').html('<p class="error">正在拼命加载中...</p>');
             isLoading = true;
             $.ajax({
                 url: Joe.BASE_API,
                 type: 'POST',
                 dataType: 'json',
-                timeout: 15000,
+                timeout: AJAX_TIMEOUT,
                 data: { routeType: 'maccms_list', ac: 'videolist', t: queryData.t, pg: queryData.pg, wd: queryData.wd },
                 success(res) {
-                    if (res.code !== 1) return $('.joe_video__list-item').css('display', 'block').html('<p class="error">数据加载失败！请检查！</p>');
+                    if (res.code !== 1) return $('.joe_video__list-item').css('display', 'block').html(`<p class="error retry">${res.data}（点击重试）</p>`);
                     if (!res.data.list.length) {
                         $('.joe_video__list-item').css('display', 'block').html('<p class="error">暂无数据！</p>');
                     } else {
@@ -63,14 +76,21 @@ document.addEventListener('DOMContentLoaded', () => {
 									<p class="title">${_.vod_name}</p>
 								</a>`;
                         });
-                        $('.joe_video__list-item').html(htmlStr);
+                        $('.joe_video__list-item').css('display', '').html(htmlStr);
                     }
                     pagecount = res.data.pagecount;
                     initPagination();
                 },
+                error() {
+                    $('.joe_video__list-item').css('display', 'block').html('<p class="error retry">加载失败（接口超时），点击重试</p>');
+                },
                 complete: () => (isLoading = false)
             });
         }
+        $('.joe_video__list-item').on('click', '.retry', function () {
+            if (isLoading) return;
+            renderDom();
+        });
         function initPagination() {
             if (pagecount == 0) return $('.joe_video__pagination').hide();
             $('.joe_video__pagination').show();
@@ -116,20 +136,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function initVideoDetail() {
         const player = $('.joe_video__player-play').attr('data-player');
-        $.ajax({
-            url: Joe.BASE_API,
-            type: 'POST',
-            dataType: 'json',
-            timeout: 15000,
-            data: {
-                routeType: 'maccms_list',
-                ac: 'detail',
-                ids: vod_id
-            },
-            success(res) {
-                if (res.code !== 1) return $('.joe_video__detail-info').html(`<p class="error">${res.data}</p>`);
-                if (!res.data.list.length) return $('.joe_video__detail-info').html(`<p class="error">数据抓取异常！请检查！</p>`);
-                const item = res.data.list[0];
+        function loadDetail() {
+            $('.joe_video__detail-info').html('<p class="error">正在拼命加载中...</p>');
+            $.ajax({
+                url: Joe.BASE_API,
+                type: 'POST',
+                dataType: 'json',
+                timeout: 35000,
+                data: {
+                    routeType: 'maccms_list',
+                    ac: 'detail',
+                    ids: vod_id
+                },
+                success(res) {
+                    if (res.code !== 1) return $('.joe_video__detail-info').html(`<p class="error retry">${res.data}（点击重试）</p>`);
+                    if (!res.data.list.length) return $('.joe_video__detail-info').html(`<p class="error">数据抓取异常！请检查！</p>`);
+                    const item = res.data.list[0];
                 /* 设置视频详情 */
                 $('.joe_video__detail-info').html(`
 					<div class="thumbnail">
@@ -170,8 +192,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 $('.joe_video__player').after(htmlStr);
                 $('.joe_video__source').first().find('.joe_video__source-list .item').first().click();
-            }
-        });
+                },
+                error() {
+                    $('.joe_video__detail-info').html('<p class="error retry">加载失败（接口超时），点击重试</p>');
+                }
+            });
+        }
+        $('.joe_video__detail-info').on('click', '.retry', loadDetail);
+        loadDetail();
         $(document).on('click', '.joe_video__source-list .item', function () {
             $('.joe_video__source-list .item').removeClass('active');
             $(this).addClass('active');

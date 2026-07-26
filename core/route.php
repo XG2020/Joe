@@ -244,9 +244,16 @@ function _getMaccmsList($self)
     $pg = $self->request->pg ? $self->request->pg : '';
     $wd = $self->request->wd ? $self->request->wd : '';
     if ($cms_api) {
-        $json = _curl("{$cms_api}?ac={$ac}&ids={$ids}&t={$t}&pg={$pg}&wd={$wd}");
+        /* 参数必须 URL 编码：搜索词 wd 为中文/含空格时直接拼接会被上游拒绝，导致搜索必然失败 */
+        $url = "{$cms_api}?ac=" . rawurlencode($ac) . "&ids=" . rawurlencode($ids) . "&t=" . rawurlencode($t) . "&pg=" . rawurlencode($pg) . "&wd=" . rawurlencode($wd);
+        /* 苹果CMS接口普遍较慢，放宽总超时到 15 秒；偶发失败自动重试一次 */
+        $json = _curl($url, 15000);
         $res = json_decode($json, TRUE);
-        if ($res['code'] === 1) {
+        if (!is_array($res) || (int) ($res['code'] ?? 0) !== 1) {
+            $json = _curl($url, 15000);
+            $res = json_decode($json, TRUE);
+        }
+        if (is_array($res) && (int) ($res['code'] ?? 0) === 1) {
             $self->response->throwJson([
                 "code" => 1,
                 "data" => $res,
@@ -254,7 +261,7 @@ function _getMaccmsList($self)
         } else {
             $self->response->throwJson([
                 "code" => 0,
-                "data" => "抓取失败！请联系作者！"
+                "data" => $json === false || $json === '' ? "视频接口超时或不可达，请稍后重试！" : "视频接口返回异常，请稍后重试！"
             ]);
         }
     } else {

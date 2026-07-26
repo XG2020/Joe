@@ -15,7 +15,7 @@
 <head>
     <?php $this->need('public/include.php'); ?>
     <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.video.min.css'); ?>">
-    <script src="<?php $this->options->themeUrl('assets/js/joe.video.min.js'); ?>"></script>
+    <script src="<?php $this->options->themeUrl('assets/js/joe.video.min.js?v=1.0.1'); ?>"></script>
 </head>
 
 <body>

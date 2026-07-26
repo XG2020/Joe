@@ -282,14 +282,15 @@ function _getAsideAuthorNav()
 	}
 }
 
-function _curl($url)
+function _curl($url, $timeout_ms = 3000)
 {
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_NOSIGNAL, 1);
+	/* 连接超时固定 3 秒，总超时允许调用方按接口快慢自定义（如苹果CMS视频接口较慢） */
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 3000);
-	curl_setopt($ch, CURLOPT_TIMEOUT_MS, 3000);
+	curl_setopt($ch, CURLOPT_TIMEOUT_MS, max(3000, (int) $timeout_ms));
 	if (strpos($url, 'https') !== false) {
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
