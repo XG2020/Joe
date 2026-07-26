@@ -14,7 +14,14 @@
 
 <head>
     <?php $this->need('public/include.php'); ?>
-    <script src="https://fastly.jsdelivr.net/npm/draggabilly@2.3.0/dist/draggabilly.pkgd.js"></script>
+    <?php
+    /* CDN/本地资源基址：JCdnStatus 关闭时用本地 assets/cdn/；开启时优先自定义 CDN 源，否则回退 fastly */
+    $JoeCdnUrl = trim((string) $this->options->JCdnUrl);
+    $JoeCdn = ($this->options->JCdnStatus === 'off')
+        ? rtrim($this->options->themeUrl, '/') . '/assets/cdn/'
+        : ($JoeCdnUrl !== '' ? rtrim($JoeCdnUrl, '/') . '/' : 'https://fastly.jsdelivr.net/');
+    ?>
+    <script src="<?php echo $JoeCdn; ?>npm/draggabilly@2.3.0/dist/draggabilly.pkgd.js"></script>
     <script src="<?php $this->options->themeUrl('assets/js/joe.leaving.min.js'); ?>"></script>
     <style>
         .joe_detail__leaving-list .item .wrapper .content a[data-fancybox] {
@@ -82,22 +89,24 @@
             </div>
         </div>
         <?php $this->need('public/footer.php'); ?>
+        <script type="text/javascript">
+            /* 放在 #Joe 容器内并立即执行：Pjax 只重执行 head 与容器内脚本，
+               挂 DOMContentLoaded 且置于容器外会导致 Pjax 进入时图片未包 fancybox 无法放大 */
+            (function () {
+                var imgs = document.querySelectorAll('.joe_detail__leaving-list .item .wrapper .content img:not(.owo_image)');
+                Array.prototype.forEach.call(imgs, function (img) {
+                    if (img.closest('a[data-fancybox]')) return;
+                    var src = img.getAttribute('data-src') || img.getAttribute('src');
+                    if (!src) return;
+                    var link = document.createElement('a');
+                    link.setAttribute('data-fancybox', 'leaving');
+                    link.setAttribute('href', src);
+                    img.parentNode.insertBefore(link, img);
+                    link.appendChild(img);
+                });
+            })();
+        </script>
     </div>
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function () {
-            var imgs = document.querySelectorAll('.joe_detail__leaving-list .item .wrapper .content img:not(.owo_image)');
-            Array.prototype.forEach.call(imgs, function (img) {
-                if (img.closest('a[data-fancybox]')) return;
-                var src = img.getAttribute('data-src') || img.getAttribute('src');
-                if (!src) return;
-                var link = document.createElement('a');
-                link.setAttribute('data-fancybox', 'leaving');
-                link.setAttribute('href', src);
-                img.parentNode.insertBefore(link, img);
-                link.appendChild(img);
-            });
-        });
-    </script>
 </body>
 
 </html>
