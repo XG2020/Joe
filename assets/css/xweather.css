@@ -27,8 +27,9 @@
     color: white;
 }
 
-/* 加载和错误状态 - 提高层级避免被毛玻璃遮挡 */
-.loading, .error {
+/* 加载和错误状态 - 提高层级避免被毛玻璃遮挡；
+   限定在 .weather-widget 内，裸 .error/.loading 会泄漏到壁纸/直播/视频页的加载提示上 */
+.weather-widget .loading, .weather-widget .error {
     text-align: center;
     padding: 20px;
     font-size: 14px;
@@ -37,7 +38,7 @@
     z-index: 10; 
 }
 
-.error {
+.weather-widget .error {
     background: rgba(255, 0, 0, 0.3);
     border-radius: 8px;
     margin: 10px;
@@ -59,10 +60,10 @@
     z-index: 10; 
 }
 
-/* 预警隐藏时仍然占位 */
-.alarm-info.hidden {
+/* 预警隐藏时仍然占位（优先级需高于 .weather-widget .hidden，否则被 display:none 抽掉占位导致内容上移） */
+.weather-widget .alarm-info.hidden {
     display: block !important; 
-    visibility: hidden; 
+    visibility: hidden;
     background: transparent;
     position: relative;
     z-index: 10;
@@ -332,13 +333,13 @@
     }
 }
 
-/* 隐藏元素 */
-.hidden {
+/* 隐藏元素（限定挂件内，避免污染全站同名类） */
+.weather-widget .hidden {
     display: none !important;
 }
 
 /* 显示元素 */
-.visible {
+.weather-widget .visible {
     display: block !important;
 }
 
@@ -358,8 +359,8 @@
     position: relative;
 }
 
-/* 分页圆点 */
-.dot {
+/* 分页圆点（限定挂件内，.dot 类名过于通用容易泄漏） */
+.weather-widget .dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -370,14 +371,14 @@
 }
 
 /* 激活的分页圆点 */
-.dot.active {
+.weather-widget .dot.active {
     background-color: rgba(255, 255, 255, 0.8);
     transform: scale(1.2);
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 /* 圆点悬停效果 */
-.dot:hover {
+.weather-widget .dot:hover {
     background-color: rgba(255, 255, 255, 0.6);
     transform: scale(1.1);
 }

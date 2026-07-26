@@ -77,6 +77,6 @@ $JoeCdn = ($this->options->JCdnStatus === 'off')
     <script src="<?php $this->options->themeUrl('assets/js/snow.min.js'); ?>"></script>
 <?php endif; ?>
 <?php if ($this->options->JAside_Weather === 'on') : ?>
-    <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/xweather.css'); ?>" />
+    <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/xweather.css?v=1.0.2'); ?>" />
     <script src="<?php $this->options->themeUrl('assets/js/xweather.min.js'); ?>"></script>
 <?php endif; ?>
