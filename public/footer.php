@@ -214,6 +214,12 @@ $JoeCdn = ($this->options->JCdnStatus === 'off')
                 translate.request.api.language = '';
                 translate.language.setLocal('chinese_simplified'); /* 站点原始语言 */
                 translate.service.use('client.edge'); /* 免费翻译通道，无需后端 */
+                /* 监听 DOM 变化：首页文章列表等 AJAX 异步插入的内容也跟随翻译（Pjax 回首页时列表晚于 execute 加载）；
+                   监听挂在 document 上换页后仍有效，只需启动一次，避免 Pjax 重执行时叠加多个观察器 */
+                if (!window.__joeTranslateListener && translate.listener && translate.listener.start) {
+                    window.__joeTranslateListener = true;
+                    translate.listener.start();
+                }
                 translate.execute(); /* 恢复上次选择的语言 */
             }
 
