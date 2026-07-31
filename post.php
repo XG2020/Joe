@@ -17,7 +17,7 @@
     <?php endif; ?>
     <script src="<?php echo $JoeCdn; ?>npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
     <script src="<?php echo $JoeCdn; ?>npm/typecho-joe-next@6.2.4/plugin/prism/prism.min.js"></script>
-    <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.post.min.css'); ?>">
+    <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.post.min.css?v=20260731'); ?>">
     <script src="<?php $this->options->themeUrl('assets/js/joe.post_page.min.js'); ?>"></script>
 </head>
 

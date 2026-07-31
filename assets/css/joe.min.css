@@ -25,16 +25,20 @@
 
 .tooltip .tooltiptext {
     visibility: hidden;
-    width: 100%;
+    width: max-content;
+    max-width: 200px;
     background-color: black;
     color: #fff;
     text-align: center;
     border-radius: 6px;
     padding: 5px;
 
-    /* 定位 */
+    /* 定位（锚定在元素上方右对齐，避免翻译后文字变长向右溢出视口产生横向滚动条） */
     position: absolute;
     z-index: 1;
+    left: auto;
+    right: 0;
+    bottom: 100%;
 }
 
 .tooltip:hover .tooltiptext {

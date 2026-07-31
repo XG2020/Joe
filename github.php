@@ -27,6 +27,7 @@
         : ($JoeCdnUrl !== '' ? rtrim($JoeCdnUrl, '/') . '/' : 'https://fastly.jsdelivr.net/');
     ?>
     <script src="<?php echo $JoeCdn; ?>npm/draggabilly@2.3.0/dist/draggabilly.pkgd.js"></script>
+    <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.archive.min.css?v=20260731'); ?>">
     <script src="<?php $this->options->themeUrl('assets/js/joe.leaving.min.js'); ?>"></script>
 </head>
 

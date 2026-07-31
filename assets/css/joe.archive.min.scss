@@ -7,8 +7,10 @@
     &__title {
         display: flex;
         align-items: center;
-        height: 45px;
-        line-height: 45px;
+        /* 翻译后文字变长时允许换行完整显示，用 min-height 代替固定高度 */
+        min-height: 45px;
+        line-height: 1.6;
+        padding: 8px 0;
         color: var(--main);
         border-bottom: 1px solid var(--classC);
         &-icon {
@@ -21,6 +23,9 @@
         &-title {
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
+            min-width: 0;
+            word-break: break-word;
             .muted {
                 color: var(--theme);
                 margin: 0 5px;

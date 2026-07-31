@@ -104,6 +104,8 @@
 		&-nav {
 			display: flex;
 			align-items: center;
+			/* 翻译后菜单文字变长时允许整体收缩，避免挤压右侧搜索框溢出 */
+			min-width: 0;
 			.item {
 				position: relative;
 				height: 60px;
@@ -113,6 +115,9 @@
 				margin-right: 15px;
 				transition: color 0.35s;
 				white-space: nowrap;
+				min-width: 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
 				color: var(--main);
 				&:last-child {
 					margin-right: 0;
@@ -140,6 +145,7 @@
 				}
 			}
 			.joe_dropdown {
+				min-width: 0;
 				&__link {
 					a {
 						height: 60px;
@@ -149,6 +155,9 @@
 						padding-right: 3px;
 						transition: color 0.35s;
 						white-space: nowrap;
+						min-width: 0;
+						overflow: hidden;
+						text-overflow: ellipsis;
 						color: var(--main);
 					}
 				}
@@ -318,6 +327,8 @@
 		}
 		&-class {
 			display: flex;
+			/* 翻译后分类名变长时允许收缩，避免挤压右侧登录区溢出 */
+			min-width: 0;
 			.item {
 				margin-right: 15px;
 				color: var(--minor);
@@ -325,6 +336,9 @@
 				line-height: 45px;
 				transition: color 0.35s;
 				white-space: nowrap;
+				min-width: 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
 				&:hover,
 				&.active {
 					color: var(--theme);
@@ -360,6 +374,7 @@
 		}
 		&-sign {
 			margin-left: auto;
+			flex-shrink: 0;
 			.joe_dropdown {
 				&__link {
 					display: flex;

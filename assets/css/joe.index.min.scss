@@ -136,6 +136,10 @@
 							padding: 0 8px;
 							border-radius: 2px;
 							white-space: nowrap;
+							/* 翻译后角标文字变长时限制宽度并省略号兜底，避免盖住卡片 */
+							max-width: calc(100% - 10px);
+							overflow: hidden;
+							text-overflow: ellipsis;
 						}
 					}
 				}

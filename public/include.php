@@ -23,11 +23,11 @@ $JoeCdn = ($this->options->JCdnStatus === 'off')
 <?php else : ?>
     <?php $this->header(); ?>
 <?php endif; ?>
-<link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.min.css'); ?>">
+<link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.min.css?v=20260731'); ?>">
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.banner.min.css'); ?>">
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.mode.min.css'); ?>">
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.normalize.min.css'); ?>">
-<link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.global.min.css'); ?>">
+<link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.global.min.css?v=20260731'); ?>">
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.responsive.min.css'); ?>">
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/joe.compat.css'); ?>">
 <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/bootstrap-grid.min.css'); ?>">

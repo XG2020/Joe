@@ -4,13 +4,15 @@
     &__bread {
         display: flex;
         align-items: center;
+        /* 翻译后分类名变长时允许换行，避免小屏溢出 */
+        flex-wrap: wrap;
         .line {
             color: var(--seat);
             padding: 0 8px;
         }
         .item {
             color: var(--minor);
-            white-space: nowrap;
+            word-break: break-word;
             .link {
                 color: var(--routine);
                 transition: color 0.35s;
@@ -40,6 +42,8 @@
         justify-content: space-between;
         &-item {
             margin-bottom: 15px;
+            /* 上下篇标题过长时可收缩，避免溢出 */
+            min-width: 0;
             a {
                 display: block;
                 height: 32px;
@@ -50,6 +54,9 @@
                 background: var(--theme);
                 font-size: 12px;
                 box-shadow: var(--box-shadow);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 &:hover{
                     animation: pulse 1s;
                     box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
@@ -57,6 +64,8 @@
             }
             &.next {
                 margin-left: auto;
+                /* 两个按钮同时存在时预留间距 */
+                padding-left: 10px;
             }
         }
     }
