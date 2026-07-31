@@ -561,6 +561,35 @@ function themeConfig($form)
     $denglong->setAttribute('class', 'joe_content joe_global');
     $form->addInput($denglong);
 
+    $JTranslateStatus = new Typecho_Widget_Helper_Form_Element_Select(
+        'JTranslateStatus',
+        array('off' => '关闭（默认）', 'on' => '开启'),
+        'off',
+        '是否开启多语言翻译切换',
+        '介绍：开启后，页面右下角悬浮按钮区将出现语言切换按钮，访客点击后可选择语言，将全站翻译为繁体、英文、日文等 <br />
+         说明：基于开源 translate.js 实现，翻译在访客浏览器端完成，无需任何后端配置和 API 密钥，访客选择的语言会自动记忆 <br />
+         提示：开启即可使用，菜单默认包含简体中文、English 两种语言，如需增减语言再去下方“多语言翻译的语言列表”中自定义'
+    );
+    $JTranslateStatus->setAttribute('class', 'joe_content joe_global');
+    $form->addInput($JTranslateStatus->multiMode());
+
+    $JTranslateLangs = new Typecho_Widget_Helper_Form_Element_Textarea(
+        'JTranslateLangs',
+        NULL,
+        NULL,
+        '多语言翻译的语言列表',
+        '介绍：自定义语言切换菜单中显示哪些语言。<strong>一般情况下留空即可</strong>，留空时使用默认列表（简体中文、English） <br />
+         格式：每行一种语言，写法为“菜单中显示的名称 || 语言代码”，中间用竖杠分隔（单个或两个竖杠均可，全角半角均可识别），显示名称可随意填写，语言代码必须是 translate.js 规定的代码 <br />
+         示例（可直接复制修改）：<br />
+         简体中文 || chinese_simplified <br />
+         繁體中文 || chinese_traditional <br />
+         English || english <br />
+         常用语言代码：chinese_simplified（简体中文）、chinese_traditional（繁體中文）、english（英文）、japanese（日文）、korean（韩文）、french（法文）、german（德文）、russian（俄文）、spanish（西班牙文），更多代码可参考 translate.js 官方文档 <br />
+         注意：格式不正确的行会被自动忽略，若所有行均无效则自动回退为默认列表，不会导致菜单为空'
+    );
+    $JTranslateLangs->setAttribute('class', 'joe_content joe_global');
+    $form->addInput($JTranslateLangs);
+
     $JSnow = new Typecho_Widget_Helper_Form_Element_Select(
         'JSnow',
         array('off' => '关闭（默认）', 'on' => '开启'),

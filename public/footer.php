@@ -60,6 +60,83 @@ $JoeCdn = ($this->options->JCdnStatus === 'off')
  <!--   <div class="joe_action_item active" id="readBook">-->
 	<!--    <a style="font-weight:bold;font-size:18px;color:var(--theme)" id="translateLink" href="javascript:translatePage();">繁</a>-->
 	<!--</div>	-->
+	<!-- 多语言翻译切换 -->
+	<?php if ($this->options->JTranslateStatus === 'on') : ?>
+		<?php
+		/* 解析语言列表：显示名称 || 语言代码，每行一个，留空用默认列表 */
+		$JTranslateDefault = "简体中文 || chinese_simplified\nEnglish || english";
+		$JTranslateText = trim((string) $this->options->JTranslateLangs);
+		if ($JTranslateText === '') {
+			$JTranslateText = $JTranslateDefault;
+		}
+		$JTranslateList = array();
+		foreach (preg_split('/\r\n|\r|\n/', $JTranslateText) as $JTranslateLine) {
+			/* 容错：全角竖杠转半角，单/双竖杠均可分隔 */
+			$JTranslateLine = str_replace(array('｜', '︱'), '|', $JTranslateLine);
+			$JTranslateItem = preg_split('/\|+/', $JTranslateLine);
+			if (count($JTranslateItem) === 2 && trim($JTranslateItem[0]) !== '' && trim($JTranslateItem[1]) !== '') {
+				$JTranslateList[] = array('name' => trim($JTranslateItem[0]), 'code' => trim($JTranslateItem[1]));
+			}
+		}
+		/* 内容格式全部无效时回退默认列表，避免菜单为空 */
+		if (empty($JTranslateList)) {
+			foreach (preg_split('/\r\n|\r|\n/', $JTranslateDefault) as $JTranslateLine) {
+				$JTranslateItem = explode('||', $JTranslateLine);
+				$JTranslateList[] = array('name' => trim($JTranslateItem[0]), 'code' => trim($JTranslateItem[1]));
+			}
+		}
+		?>
+		<div class="joe_action_item lang ignore" id="joeTranslate">
+			<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="25" height="25">
+				<path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z" />
+			</svg>
+			<nav class="joe_lang__menu">
+				<?php foreach ($JTranslateList as $JTranslateItem) : ?>
+					<span class="joe_lang__menu-item" data-lang="<?php echo htmlspecialchars($JTranslateItem['code']) ?>"><?php echo htmlspecialchars($JTranslateItem['name']) ?></span>
+				<?php endforeach; ?>
+			</nav>
+		</div>
+		<style>
+			.joe_action_item.lang .joe_lang__menu {
+				position: absolute;
+				right: 50px;
+				bottom: 0;
+				min-width: 110px;
+				padding: 5px 0;
+				background: var(--background);
+				border-radius: var(--radius-inner);
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 20px rgba(0, 0, 0, 0.2);
+				opacity: 0;
+				visibility: hidden;
+				transform: translateX(10px);
+				transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
+				cursor: auto;
+			}
+			.joe_action_item.lang.active .joe_lang__menu {
+				opacity: 1;
+				visibility: visible;
+				transform: translateX(0);
+			}
+			.joe_lang__menu-item {
+				display: block;
+				padding: 6px 15px;
+				font-size: 13px;
+				text-align: center;
+				white-space: nowrap;
+				color: var(--main);
+				cursor: pointer;
+				transition: color 0.25s, background 0.25s;
+			}
+			.joe_lang__menu-item:hover {
+				color: var(--theme);
+				background: var(--classD);
+			}
+			.joe_lang__menu-item.active {
+				color: var(--theme);
+				font-weight: 500;
+			}
+		</style>
+	<?php endif; ?>
 	<div class="read_book_button  not_read_book"   style="display: none"></div>
 </div>
 <!--- 移动端悬浮按钮贴边半隐藏，点击展开 开始 --->
@@ -121,6 +198,57 @@ $JoeCdn = ($this->options->JCdnStatus === 'off')
 <!--- 移动端悬浮按钮贴边半隐藏，点击展开 结束 --->
 <?php if ($this->options->JGlobalThemeStatus === 'on') : ?>
     <script src="<?php echo $JoeCdn; ?>npm/jquery-colpick@3.1.0/js/colpick.min.js"></script>
+<?php endif; ?>
+<!-- 多语言翻译（translate.js，翻译在浏览器端完成） -->
+<?php if ($this->options->JTranslateStatus === 'on') : ?>
+    <script src="<?php echo ($this->options->JCdnStatus === 'off') ? 'https://fastly.jsdelivr.net/' : $JoeCdn; ?>npm/i18n-jsautotranslate@3.18.98/index.min.js"></script>
+    <script>
+        (function () {
+            /* translate.js 加载成功才初始化翻译，失败时菜单交互仍可用 */
+            if (typeof translate !== 'undefined') {
+                translate.selectLanguageTag.show = false; /* 隐藏自带的语言下拉框，使用主题自己的按钮 */
+                /* 禁用对 api.translate.zvo.cn 的初始化/测速等请求，client.edge 通道下无需它们，避免接口不通时控制台报错 */
+                translate.request.api.init = '';
+                translate.request.api.connectTest = '';
+                translate.request.api.ip = '';
+                translate.request.api.language = '';
+                translate.language.setLocal('chinese_simplified'); /* 站点原始语言 */
+                translate.service.use('client.edge'); /* 免费翻译通道，无需后端 */
+                translate.execute(); /* 恢复上次选择的语言 */
+            }
+
+            /* 标记菜单中当前语言 */
+            function markActive() {
+                var wrap = document.getElementById('joeTranslate');
+                if (!wrap || typeof translate === 'undefined') return;
+                var current = translate.language.getCurrent();
+                wrap.querySelectorAll('.joe_lang__menu-item').forEach(function (item) {
+                    item.classList.toggle('active', item.getAttribute('data-lang') === current);
+                });
+            }
+            markActive();
+
+            /* document 级监听只绑一次，Pjax 换页重执行时跳过 */
+            if (window.__joeTranslateInit) return;
+            window.__joeTranslateInit = true;
+            document.addEventListener('click', function (e) {
+                var wrap = document.getElementById('joeTranslate');
+                if (!wrap) return;
+                var item = e.target.closest('.joe_lang__menu-item');
+                if (item && wrap.contains(item)) {
+                    var lang = item.getAttribute('data-lang');
+                    if (typeof translate !== 'undefined' && lang && lang !== translate.language.getCurrent()) {
+                        translate.changeLanguage(lang);
+                        markActive();
+                    }
+                    wrap.classList.remove('active');
+                    return;
+                }
+                /* 点按钮展开/收起菜单，点外部关闭 */
+                wrap.contains(e.target) ? wrap.classList.toggle('active') : wrap.classList.remove('active');
+            });
+        })();
+    </script>
 <?php endif; ?>
 <!-- 目录树 -->
 <?php if ($this->options->JDirectoryStatus === 'on'  && !_isMobile()) : ?>
