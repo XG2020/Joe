@@ -176,6 +176,24 @@ function _getAvatarByMail($mail)
 	}
 };
 
+/* 获取侧边栏博主信息（mail/screenName）：无文章上下文且未登录时（如搜索无结果页）回退到管理员账号，避免头像/昵称为空 */
+function _getAsideAuthorInfo($archive, $key)
+{
+	/* author/user 在无结果归档页可能为 null，先判对象再取属性，避免 PHP8 Warning 输出破坏 HTML */
+	$source = $archive->authorId ? $archive->author : $archive->user;
+	$value = is_object($source) ? $source->$key : '';
+	if (!$value) {
+		static $admin = null;
+		if ($admin === null) {
+			$db = Typecho_Db::get();
+			$admin = $db->fetchRow($db->select('mail', 'screenName')->from('table.users')->where('group = ?', 'administrator')->order('uid', Typecho_Db::SORT_ASC)->limit(1));
+			if (!$admin) $admin = array();
+		}
+		$value = isset($admin[$key]) ? $admin[$key] : '';
+	}
+	return $value;
+}
+
 /* 获取侧边栏随机一言 */
 function _getAsideAuthorMotto()
 {
